@@ -6,9 +6,7 @@ import org.hibernate.annotations.FetchMode;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 @Table(name = "tb_user")
@@ -21,7 +19,7 @@ public class User {
 
     private String password;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_schedule",
             joinColumns = @JoinColumn(name = "user_id"),
@@ -29,6 +27,12 @@ public class User {
     )
     @Fetch(FetchMode.JOIN)
     private List<Schedule> schedules = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "tb_user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
     }
@@ -76,4 +80,7 @@ public class User {
         return schedules;
     }
 
+    public Set<Role> getRoles() {
+        return roles;
+    }
 }

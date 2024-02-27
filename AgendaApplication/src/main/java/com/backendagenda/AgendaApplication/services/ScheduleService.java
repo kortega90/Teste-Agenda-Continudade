@@ -42,8 +42,8 @@ public class ScheduleService {
 
     public Page<ScheduleDTO> getAllSchedules(String name, Pageable pageable) {
         try {
-            Page<Schedule> schedule = scheduleRepository.searchByName(name, pageable);
-            return schedule.map(ScheduleDTO::new);
+            Page<ScheduleDTO> schedule = scheduleRepository.searchByName(name, pageable);
+            return schedule;
         }catch (DataAccessException e) {
             throw new ResourNotFoundException("Erro ao buscar agendamentos por nome" + e);
         }
@@ -91,6 +91,7 @@ public class ScheduleService {
         }
     }
 
+    @Transactional
     public ScheduleDTO updateSchedule(Long id, ScheduleDTO dto) {
         try {
             Schedule entity = scheduleRepository.findById(id)
@@ -112,16 +113,14 @@ public class ScheduleService {
             throw new ResourNotFoundException("Recurso não encontrado" + e);
         }
     }
-
+    @Transactional
     public ScheduleMinDTO updateContactToSchedule(Long scheduleId, ScheduleMinDTO dto) {
         try {
-
-
-            Schedule schedule = scheduleRepository.findById(scheduleId)
+            Schedule entity = scheduleRepository.findById(scheduleId)
                     .orElseThrow(() -> new ResourNotFoundException("Agenda não encontrada com o ID: " + scheduleId));
-            Schedule entity = new Schedule();
-            entity = schedule;
+
             entity.getContacts().clear();
+
             for (ContactDTO contactDto : dto.getContacts()) {
                 Contact contact = new Contact();
                 contact.setName(contactDto.getName());
@@ -132,7 +131,7 @@ public class ScheduleService {
                 contact.setCpf(contactDto.getCpf());
                 contact.setSchedule(entity);
 
-                entity.getContacts().add(contact);
+                entity.addContact(contact);
             }
             return new ScheduleMinDTO(scheduleRepository.save(entity));
         } catch (ResourNotFoundException e) {

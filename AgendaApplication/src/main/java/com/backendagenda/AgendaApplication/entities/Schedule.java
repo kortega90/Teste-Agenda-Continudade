@@ -27,7 +27,7 @@ public class Schedule {
     @UpdateTimestamp
     private LocalDateTime updatedAt;
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(
             name = "user_schedule",
             joinColumns = @JoinColumn(name = "schedule_id"),
@@ -36,7 +36,7 @@ public class Schedule {
     private List<User> users = new ArrayList<>();
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "schedule", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Contact> contacts = new ArrayList<>();
 
     public Schedule() {
@@ -99,4 +99,9 @@ public class Schedule {
     public List<Contact> getContacts() {
         return contacts;
     }
+    public void addContact(Contact contact) {
+        contacts.add(contact);
+        contact.setSchedule(this);
+    }
+
 }

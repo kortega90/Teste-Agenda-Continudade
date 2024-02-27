@@ -25,8 +25,7 @@ public class Contact {
     public Contact() {
     }
 
-
-    public Contact(Long id, String name, String cep, String email, String phone, String cnpj, String cpf) {
+    public Contact(Long id, String name, String cep, String email, String phone, String cnpj, String cpf, Schedule schedule) {
         this.id = id;
         this.name = name;
         this.cep = cep;
@@ -34,6 +33,7 @@ public class Contact {
         this.phone = phone;
         this.cnpj = cnpj;
         this.cpf = cpf;
+        this.schedule = schedule;
     }
 
     public Long getId() {

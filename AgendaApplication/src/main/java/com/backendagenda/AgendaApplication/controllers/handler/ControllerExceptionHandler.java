@@ -4,7 +4,7 @@ import com.backendagenda.AgendaApplication.dto.CustomError;
 import com.backendagenda.AgendaApplication.dto.ValidationError;
 import com.backendagenda.AgendaApplication.services.exceptions.DatabaseException;
 import com.backendagenda.AgendaApplication.services.exceptions.ForbiddenException;
-import jakarta.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequest;
 
 import com.backendagenda.AgendaApplication.services.exceptions.ResourNotFoundException;
 import org.springframework.http.HttpStatus;

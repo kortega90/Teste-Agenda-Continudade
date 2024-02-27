@@ -9,10 +9,12 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,15 +24,15 @@ import java.util.stream.Collectors;
 public class UserService implements UserDetailsService{
 
     @Autowired
-    private UserRepository userRepository;
+    private UserRepository repository;
 
     public Page<UserDTO> getAllUsers(String name, Pageable pageable) {
-        Page<User> users = userRepository.searchByName(name, pageable);
+        Page<User> users = repository.searchByName(name, pageable);
         return  users.map(UserDTO::new);
     }
 
     public UserDTO getUserById(Long id) {
-        Optional<User> userOptional = userRepository.findById(id);
+        Optional<User> userOptional = repository.findById(id);
         return userOptional.map(UserDTO::new).orElse(null);
     }
 
@@ -41,13 +43,13 @@ public class UserService implements UserDetailsService{
         user.setEmail(userDTO.getEmail());
         user.setPassword(userDTO.getPassword());
 
-        User savedUser = userRepository.save(user);
+        User savedUser = repository.save(user);
         return new UserDTO(savedUser);
     }
 
     public void deleteUserById(Long id) {
         try {
-            userRepository.deleteById(id);
+            repository.deleteById(id);
         }
         catch (EmptyResultDataAccessException e) {
             throw new ResourNotFoundException("Recurso não encontrado");
@@ -59,14 +61,14 @@ public class UserService implements UserDetailsService{
 
     public UserDTO updateUser(Long id, UserDTO dto) {
 
-        Optional<User> optionalUser = userRepository.findById(id);
+        Optional<User> optionalUser = repository.findById(id);
 
         if (optionalUser.isPresent()) {
             User existingUser = optionalUser.get();
             existingUser.setName(dto.getName());
             existingUser.setEmail(dto.getEmail());
             existingUser.setPassword(dto.getPassword());
-            User updatedUser = userRepository.save(existingUser);
+            User updatedUser = repository.save(existingUser);
             return new UserDTO(updatedUser);
         } else {
             throw new ResourNotFoundException("Usuário não encontrado com o ID: " + id);
@@ -75,6 +77,27 @@ public class UserService implements UserDetailsService{
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return null;
+
+        User user = repository.findByEmail(username);
+        if (user == null) {
+            throw new UsernameNotFoundException("Email not found");
+        }
+        return user;
+    }
+    protected User authenticated(){
+        try {
+            String username = SecurityContextHolder.getContext().getAuthentication().getName();
+            return repository.findByEmail(username);
+        }
+        catch (Exception e){
+            throw new UsernameNotFoundException("Invalid user");
+        }
+
+    }
+
+    @Transactional(readOnly = true)
+    public UserDTO getMe() {
+        User entity = authenticated();
+        return new UserDTO(entity);
     }
 }

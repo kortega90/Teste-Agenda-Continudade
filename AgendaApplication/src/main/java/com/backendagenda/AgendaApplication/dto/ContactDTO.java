@@ -2,12 +2,17 @@ package com.backendagenda.AgendaApplication.dto;
 
 import com.backendagenda.AgendaApplication.entities.Contact;
 import com.backendagenda.AgendaApplication.entities.Schedule;
-import jakarta.persistence.Column;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
+import com.backendagenda.AgendaApplication.validators.Cep;
+import com.backendagenda.AgendaApplication.validators.Cpf;
 
+import javax.persistence.Column;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class ContactDTO {
@@ -15,12 +20,15 @@ public class ContactDTO {
     @Size(min = 3, max = 80, message = "Nome precisar ter de 3 a 80 caracteres")
     @NotNull(message = "Campo requerido")
     private String name;
+    @Size(min = 8, max = 8,message = "CEP inválido")
     private String cep;
     private String email;
     @NotBlank(message = "Campo requerido")
     private String phone;
     @Column(unique = true)
     private String cnpj;
+
+    @Size(min =11, max =11,message =  "Por favor, insira um CPF válido")
     @Column(unique = true)
     private String cpf;
     private Long scheduleId;

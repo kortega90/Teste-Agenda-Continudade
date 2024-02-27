@@ -1,7 +1,7 @@
 package com.backendagenda.AgendaApplication.dto;
 
 import com.backendagenda.AgendaApplication.entities.User;
-import jakarta.persistence.Column;
+import javax.persistence.Column;
 
 import javax.validation.constraints.NotBlank;
 

@@ -11,7 +11,7 @@ import com.backendagenda.AgendaApplication.repositories.ContactRepository;
 import com.backendagenda.AgendaApplication.repositories.ScheduleRepository;
 import com.backendagenda.AgendaApplication.repositories.UserRepository;
 import com.backendagenda.AgendaApplication.services.exceptions.DatabaseException;
-import jakarta.persistence.EntityNotFoundException;
+import javax.persistence.EntityNotFoundException;
 
 import com.backendagenda.AgendaApplication.services.exceptions.ResourNotFoundException;
 import org.springframework.dao.DataAccessException;

@@ -1,8 +1,15 @@
-INSERT INTO tb_user(name, email, password) VALUES ('Kengi Ortega', 'kortega@hotmail.com', 'password123');
-INSERT INTO tb_user(name, email, password) VALUES ('Maria Silva', 'maria.silva@example.com', 'password123');
-INSERT INTO tb_user(name, email, password) VALUES ('John Doe', 'john.doe@example.com', 'password123');
-INSERT INTO tb_user(name, email, password) VALUES ('Alice Johnson', 'alice.johnson@example.com', 'password123');
+INSERT INTO tb_user(name, email, password) VALUES ('Kengi Ortega', 'kortega@hotmail.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
+INSERT INTO tb_user(name, email, password) VALUES ('Maria Silva', 'maria.silva@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
+INSERT INTO tb_user(name, email, password) VALUES ('John Doe', 'john.doe@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
+INSERT INTO tb_user(name, email, password) VALUES ('Alice Johnson', 'alice.johnson@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 
+INSERT INTO tb_role (authority) VALUES ('ROLE_USER');
+INSERT INTO tb_role (authority) VALUES ('ROLE_ADMIN');
+
+INSERT INTO tb_user_role (user_id, role_id) VALUES (1,2);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (2,1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (3,1);
+INSERT INTO tb_user_role (user_id, role_id) VALUES (4,1);
 
 INSERT INTO TB_SCHEDULE (name, expiration_date, created_at, updated_at) VALUES ('Reunião de Equipe', '2024-03-01', NOW(), NOW());
 INSERT INTO TB_SCHEDULE (name, expiration_date, created_at, updated_at) VALUES ('Apresentação do Projeto', '2024-03-05', NOW(), NOW());

@@ -10,4 +10,6 @@ public interface UserRepository extends JpaRepository<User,Long> {
     @Query(" SELECT obj FROM com.backendagenda.AgendaApplication.entities.User obj " +
             "WHERE UPPER(obj.name) LIKE UPPER(CONCAT('%', :name, '%'))")
     Page<User> searchByName(String name, Pageable pageable);
+
+    User findByEmail(String email);
 }

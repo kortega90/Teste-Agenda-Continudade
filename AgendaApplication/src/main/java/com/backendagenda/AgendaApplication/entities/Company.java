@@ -1,6 +1,6 @@
 package com.backendagenda.AgendaApplication.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "tb_company")

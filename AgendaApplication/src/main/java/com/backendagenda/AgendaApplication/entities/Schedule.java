@@ -1,6 +1,6 @@
 package com.backendagenda.AgendaApplication.entities;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -36,7 +36,7 @@ public class Schedule {
     private List<User> users = new ArrayList<>();
 
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "schedule", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "schedule", cascade = CascadeType.ALL)
     private List<Contact> contacts = new ArrayList<>();
 
     public Schedule() {

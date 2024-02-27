@@ -4,11 +4,12 @@ import com.backendagenda.AgendaApplication.dto.ContactDTO;
 import com.backendagenda.AgendaApplication.dto.ScheduleDTO;
 import com.backendagenda.AgendaApplication.dto.ScheduleMinDTO;
 import com.backendagenda.AgendaApplication.services.ScheduleService;
-import jakarta.transaction.Transactional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
@@ -26,18 +27,19 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<Page<ScheduleDTO>> getAllSchedules(
             @RequestParam(name="name", defaultValue = "") String name, Pageable pageable) {
         return ResponseEntity.ok(scheduleService.getAllSchedules(name, pageable));
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @GetMapping("/user/{userId}")
     public ResponseEntity<List<ScheduleDTO>>getSchedulesByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(scheduleService.getSchedulesByUserId(userId));
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @PostMapping("/add")
     public ResponseEntity<ScheduleDTO> addSchedule(@Valid @RequestBody ScheduleDTO dto) {
@@ -46,18 +48,19 @@ public class ScheduleController {
         return ResponseEntity.created(uri).body(dto);
 
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/delete/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
         return ResponseEntity.noContent().build();
     }
-
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping("/update/{scheduleId}")
     public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable Long scheduleId,@Valid @RequestBody ScheduleDTO scheduleDetails) {
         return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, scheduleDetails));
     }
-    // Endpoint para adicionar um contato a uma agenda
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/{scheduleId}/contacts")
     public ResponseEntity<ScheduleMinDTO> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {
 

@@ -91,6 +91,16 @@
             <artifactId>javax.mail</artifactId>
             <version>1.6.2</version> <!-- Versão mais recente -->
         </dependency>
+        <!-- Dependência para postgresql-->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.flywaydb</groupId>
+            <artifactId>flyway-core</artifactId>
+        </dependency>
     </dependencies>
 
     <build>

@@ -26,11 +26,11 @@ public class ScheduleMinDTO {
         this.createdAt = entity.getCreatedAt();
         this.expirationDate = entity.getExpirationDate().atStartOfDay();
         this.updatedAt = entity.getUpdatedAt();
-        for (User user: entity.getUsers()){
+        for (User user : entity.getUsers()) {
             users.add(new UserToScheduleDTO(user));
         }
-        for (Contact contact: entity.getContacts()){
-            contacts .add(new ContactDTO(contact));
+        for (Contact contact : entity.getContacts()) {
+            contacts.add(new ContactDTO(contact));
         }
     }
 

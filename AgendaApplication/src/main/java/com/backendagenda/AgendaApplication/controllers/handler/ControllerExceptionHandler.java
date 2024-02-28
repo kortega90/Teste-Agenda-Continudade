@@ -4,6 +4,7 @@ import com.backendagenda.AgendaApplication.dto.CustomError;
 import com.backendagenda.AgendaApplication.dto.ValidationError;
 import com.backendagenda.AgendaApplication.services.exceptions.DatabaseException;
 import com.backendagenda.AgendaApplication.services.exceptions.ForbiddenException;
+
 import javax.servlet.http.HttpServletRequest;
 
 import com.backendagenda.AgendaApplication.services.exceptions.ResourNotFoundException;
@@ -27,17 +28,19 @@ public class ControllerExceptionHandler {
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI(), LocalDateTime.now(), LocalDate.now());
         return ResponseEntity.status(status).body(err);
     }
+
     @ExceptionHandler(DatabaseException.class)
     public ResponseEntity<CustomError> dataBase(DatabaseException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.BAD_REQUEST;
         CustomError err = new CustomError(Instant.now(), status.value(), e.getMessage(), request.getRequestURI(), LocalDateTime.now(), LocalDate.now());
         return ResponseEntity.status(status).body(err);
     }
+
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<CustomError> methodArgumentNotValid(MethodArgumentNotValidException e, HttpServletRequest request) {
         HttpStatus status = HttpStatus.UNPROCESSABLE_ENTITY;
         ValidationError err = new ValidationError(Instant.now(), status.value(), "Dados invalidos", request.getRequestURI(), LocalDateTime.now(), LocalDate.now());
-        for (FieldError f: e.getBindingResult().getFieldErrors()){
+        for (FieldError f : e.getBindingResult().getFieldErrors()) {
             err.addError(f.getField(), f.getDefaultMessage());
         }
         return ResponseEntity.status(status).body(err);

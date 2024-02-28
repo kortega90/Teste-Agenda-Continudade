@@ -1,10 +1,12 @@
 package com.backendagenda.AgendaApplication.controllers;
 
-import com.backendagenda.AgendaApplication.dto.ContactDTO;
 import com.backendagenda.AgendaApplication.dto.ScheduleDTO;
 import com.backendagenda.AgendaApplication.dto.ScheduleMinDTO;
+import com.backendagenda.AgendaApplication.services.EmailService;
 import com.backendagenda.AgendaApplication.services.ScheduleService;
+
 import javax.transaction.Transactional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,11 +19,15 @@ import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
 
+
 @RestController
 @RequestMapping(value = "/schedule")
 public class ScheduleController {
 
     private final ScheduleService scheduleService;
+    @Autowired
+    private EmailService emailService;
+
     @Autowired
     public ScheduleController(ScheduleService scheduleService) {
         this.scheduleService = scheduleService;
@@ -30,15 +36,17 @@ public class ScheduleController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<Page<ScheduleDTO>> getAllSchedules(
-            @RequestParam(name="name", defaultValue = "") String name, Pageable pageable) {
+            @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
         return ResponseEntity.ok(scheduleService.getAllSchedules(name, pageable));
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ScheduleDTO>>getSchedulesByUserId(@PathVariable Long userId) {
+    public ResponseEntity<List<ScheduleDTO>> getSchedulesByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(scheduleService.getSchedulesByUserId(userId));
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @PostMapping("/add")
@@ -48,22 +56,26 @@ public class ScheduleController {
         return ResponseEntity.created(uri).body(dto);
 
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/delete/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
         return ResponseEntity.noContent().build();
     }
+
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping("/update/{scheduleId}")
-    public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable Long scheduleId,@Valid @RequestBody ScheduleDTO scheduleDetails) {
+    public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleDTO scheduleDetails) {
         return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, scheduleDetails));
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/{scheduleId}/contacts")
+    @Transactional
     public ResponseEntity<ScheduleMinDTO> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {
-
+        scheduleService.sendEmailsForSchedule(scheduleId); // Envie e-mails para os usuários associados ao agendamento
         return ResponseEntity.ok(scheduleService.updateContactToSchedule(scheduleId, dto));
     }
+
 }

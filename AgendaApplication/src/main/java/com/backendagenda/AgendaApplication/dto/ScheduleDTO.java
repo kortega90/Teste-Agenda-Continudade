@@ -22,19 +22,19 @@ public class ScheduleDTO {
 
     private List<UserToScheduleDTO> users = new ArrayList<UserToScheduleDTO>();
     private List<ContactDTO> contacts = new ArrayList<ContactDTO>();
-    // Construtor
 
+    // Construtor
     public ScheduleDTO(Schedule entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.createdAt = entity.getCreatedAt();
         this.expirationDate = entity.getExpirationDate().atStartOfDay();
         this.updatedAt = entity.getUpdatedAt();
-        for (User user: entity.getUsers()){
+        for (User user : entity.getUsers()) {
             users.add(new UserToScheduleDTO(user));
         }
-        for (Contact contact: entity.getContacts()){
-            contacts .add(new ContactDTO(contact));
+        for (Contact contact : entity.getContacts()) {
+            contacts.add(new ContactDTO(contact));
         }
     }
 

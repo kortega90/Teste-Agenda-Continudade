@@ -19,6 +19,6 @@ public class ContactService {
 
     public Page<ContactDTO> getAllUsers(Pageable pageable) {
         Page<Contact> contact = contactRepository.findAll(pageable);
-        return  contact.map(ContactDTO::new);
+        return contact.map(ContactDTO::new);
     }
 }

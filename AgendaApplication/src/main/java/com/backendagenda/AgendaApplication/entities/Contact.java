@@ -1,5 +1,8 @@
 package com.backendagenda.AgendaApplication.entities;
 
+import com.backendagenda.AgendaApplication.validators.Cep;
+import com.backendagenda.AgendaApplication.validators.Cpf;
+
 import javax.persistence.*;
 
 import java.util.ArrayList;
@@ -12,10 +15,12 @@ public class Contact {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
+    @Cep(message = "Cep inválido")
     private String cep;
     private String email;
     private String phone;
     private String cnpj;
+    @Cpf(message = "Cpf inválido")
     private String cpf;
 
     @ManyToOne
@@ -34,6 +39,12 @@ public class Contact {
         this.cnpj = cnpj;
         this.cpf = cpf;
         this.schedule = schedule;
+    }
+
+    private void validateContact() {
+        if ((cpf != null && cnpj != null) || (cpf == null && cnpj == null)) {
+            throw new IllegalArgumentException("Um contato deve ter CPF ou CNPJ, mas não ambos ou nenhum.");
+        }
     }
 
     public Long getId() {

@@ -1,18 +1,13 @@
 package com.backendagenda.AgendaApplication.dto;
 
 import com.backendagenda.AgendaApplication.entities.Contact;
-import com.backendagenda.AgendaApplication.entities.Schedule;
 import com.backendagenda.AgendaApplication.validators.Cep;
 import com.backendagenda.AgendaApplication.validators.Cpf;
 
 import javax.persistence.Column;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 
-import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class ContactDTO {
@@ -20,7 +15,8 @@ public class ContactDTO {
     @Size(min = 3, max = 80, message = "Nome precisar ter de 3 a 80 caracteres")
     @NotNull(message = "Campo requerido")
     private String name;
-    @Size(min = 8, max = 8,message = "CEP inválido")
+    @Size(min = 8, max = 8, message = "CEP inválido")
+    @Cep(message = "Cep inválido")
     private String cep;
     private String email;
     @NotBlank(message = "Campo requerido")
@@ -28,7 +24,8 @@ public class ContactDTO {
     @Column(unique = true)
     private String cnpj;
 
-    @Size(min =11, max =11,message =  "Por favor, insira um CPF válido")
+    @Size(min = 11, max = 11, message = "Por favor, insira um CPF válido")
+    @Cpf(message = "Cpf inválido")
     @Column(unique = true)
     private String cpf;
     private Long scheduleId;
@@ -49,6 +46,7 @@ public class ContactDTO {
         this.cpf = entity.getCpf();
         this.scheduleId = entity.getSchedule() != null ? entity.getSchedule().getId() : null;
     }
+
     public ContactDTO(String name, String cep, String email, String phone, String cnpj, String cpf) {
         this.name = name;
         this.cep = cep;
@@ -57,6 +55,7 @@ public class ContactDTO {
         this.cnpj = cnpj;
         this.cpf = cpf;
     }
+
     public ContactDTO(Long id, String name, String cep, String email, String phone, String cnpj, String cpf) {
         this.id = id;
         this.name = name;
@@ -68,13 +67,12 @@ public class ContactDTO {
         validateContact();
     }
 
-
-
     private void validateContact() {
-        if (cpf != null && cnpj != null) {
-            throw new IllegalArgumentException("Um contato não pode ter tanto CPF quanto CNPJ.");
+        if ((cpf != null && cnpj != null) || (cpf == null && cnpj == null)) {
+            throw new IllegalArgumentException("Um contato deve ter CPF ou CNPJ, mas não ambos ou nenhum.");
         }
     }
+
     public Long getId() {
         return id;
     }
@@ -114,10 +112,6 @@ public class ContactDTO {
     public void setPhone(String phone) {
         this.phone = phone;
     }
-
-//    public Schedule getSchedule() {
-//        return schedule;
-//    }
 
     public String getCnpj() {
         return cnpj;

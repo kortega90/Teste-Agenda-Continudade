@@ -1,6 +1,7 @@
 package com.backendagenda.AgendaApplication.entities;
 
 import javax.persistence.*;
+
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -51,7 +52,6 @@ public class Schedule {
     }
 
 
-
     public Long getId() {
         return id;
     }
@@ -99,6 +99,7 @@ public class Schedule {
     public List<Contact> getContacts() {
         return contacts;
     }
+
     public void addContact(Contact contact) {
         contacts.add(contact);
         contact.setSchedule(this);

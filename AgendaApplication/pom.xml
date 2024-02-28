@@ -85,7 +85,12 @@
             <scope>provided</scope>
         </dependency>
 
-
+        <!-- Dependência para validação de CPF -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>javax.mail</artifactId>
+            <version>1.6.2</version> <!-- Versão mais recente -->
+        </dependency>
     </dependencies>
 
     <build>

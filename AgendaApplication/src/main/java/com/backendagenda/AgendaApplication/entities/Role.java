@@ -1,6 +1,7 @@
 package com.backendagenda.AgendaApplication.entities;
 
 import javax.persistence.*;
+
 import org.springframework.security.core.GrantedAuthority;
 
 import java.util.HashSet;
@@ -14,12 +15,12 @@ public class Role implements GrantedAuthority {
     private Long id;
     private String authority;
 
-
-    @ManyToMany (mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles")
     private Set<User> users = new HashSet<>();
 
     public Role() {
     }
+
     public Role(Long id, String authority) {
         this.id = id;
         this.authority = authority;

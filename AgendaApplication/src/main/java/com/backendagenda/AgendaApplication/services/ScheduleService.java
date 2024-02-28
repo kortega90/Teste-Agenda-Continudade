@@ -11,9 +11,11 @@ import com.backendagenda.AgendaApplication.repositories.ContactRepository;
 import com.backendagenda.AgendaApplication.repositories.ScheduleRepository;
 import com.backendagenda.AgendaApplication.repositories.UserRepository;
 import com.backendagenda.AgendaApplication.services.exceptions.DatabaseException;
+
 import javax.persistence.EntityNotFoundException;
 
 import com.backendagenda.AgendaApplication.services.exceptions.ResourNotFoundException;
+import com.backendagenda.AgendaApplication.validators.Cep;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -31,20 +33,21 @@ import java.util.stream.Collectors;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
-
     private ContactRepository contactRepository;
+    private final EmailService emailService;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository, ContactRepository contactRepository) {
+    public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository, ContactRepository contactRepository, EmailService emailService) {
         this.scheduleRepository = scheduleRepository;
         this.userRepository = userRepository;
         this.contactRepository = contactRepository;
+        this.emailService = emailService;
     }
 
     public Page<ScheduleDTO> getAllSchedules(String name, Pageable pageable) {
         try {
             Page<ScheduleDTO> schedule = scheduleRepository.searchByName(name, pageable);
             return schedule;
-        }catch (DataAccessException e) {
+        } catch (DataAccessException e) {
             throw new ResourNotFoundException("Erro ao buscar agendamentos por nome" + e);
         }
     }
@@ -113,6 +116,7 @@ public class ScheduleService {
             throw new ResourNotFoundException("Recurso não encontrado" + e);
         }
     }
+
     @Transactional
     public ScheduleMinDTO updateContactToSchedule(Long scheduleId, ScheduleMinDTO dto) {
         try {
@@ -136,8 +140,17 @@ public class ScheduleService {
             return new ScheduleMinDTO(scheduleRepository.save(entity));
         } catch (ResourNotFoundException e) {
             throw e;
-        } catch (Exception e){
+        } catch (Exception e) {
             throw new RuntimeException("Erro ao atualizar contato na agenda", e);
+        }
+    }
+
+    @Transactional
+    public void sendEmailsForSchedule(Long scheduleId) {
+        List<String> userEmails = userRepository.findUserEmailsByScheduleId(scheduleId);
+        // Envie e-mails para os usuários encontrados
+        for (String email : userEmails) {
+            emailService.sendEmail(email, "Modificação de contatos nas agendas", "contactos atualizado com sucesso"); // Implemente o serviço de envio de e-mail
         }
     }
 }

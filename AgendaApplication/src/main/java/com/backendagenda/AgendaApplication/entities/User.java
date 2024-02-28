@@ -1,5 +1,7 @@
 package com.backendagenda.AgendaApplication.entities;
+
 import javax.persistence.*;
+
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +16,7 @@ import java.util.*;
 @Table(name = "tb_user")
 public class User implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY )
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private String email;
@@ -78,9 +80,10 @@ public class User implements UserDetails {
     public String getPassword() {
         return password;
     }
-    public boolean hasRole(String roleName){
-        for (Role role: roles){
-            if (role.getAuthority().equals(roleName)){
+
+    public boolean hasRole(String roleName) {
+        for (Role role : roles) {
+            if (role.getAuthority().equals(roleName)) {
                 return true;
             }
         }

@@ -21,14 +21,14 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
-public class UserService implements UserDetailsService{
+public class UserService implements UserDetailsService {
 
     @Autowired
     private UserRepository repository;
 
     public Page<UserDTO> getAllUsers(String name, Pageable pageable) {
         Page<User> users = repository.searchByName(name, pageable);
-        return  users.map(UserDTO::new);
+        return users.map(UserDTO::new);
     }
 
     public UserDTO getUserById(Long id) {
@@ -50,11 +50,9 @@ public class UserService implements UserDetailsService{
     public void deleteUserById(Long id) {
         try {
             repository.deleteById(id);
-        }
-        catch (EmptyResultDataAccessException e) {
+        } catch (EmptyResultDataAccessException e) {
             throw new ResourNotFoundException("Recurso não encontrado");
-        }
-        catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             throw new RuntimeException("Não é possível excluir o usuário com o ID: " + id + ". Há uma violação de integridade referencial.");
         }
     }
@@ -84,12 +82,12 @@ public class UserService implements UserDetailsService{
         }
         return user;
     }
-    protected User authenticated(){
+
+    protected User authenticated() {
         try {
             String username = SecurityContextHolder.getContext().getAuthentication().getName();
             return repository.findByEmail(username);
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             throw new UsernameNotFoundException("Invalid user");
         }
 

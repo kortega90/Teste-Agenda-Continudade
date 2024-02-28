@@ -6,8 +6,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ValidationError extends CustomError{
-    private  List<FieldMessage> errors = new ArrayList<>();
+public class ValidationError extends CustomError {
+    private List<FieldMessage> errors = new ArrayList<>();
 
     public ValidationError(Instant timestamp, Integer status, String error, String path, LocalDateTime localDateTime, LocalDate localDate) {
         super(timestamp, status, error, path, localDateTime, localDate);

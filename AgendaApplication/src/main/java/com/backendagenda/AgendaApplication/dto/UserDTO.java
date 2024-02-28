@@ -1,9 +1,14 @@
 package com.backendagenda.AgendaApplication.dto;
 
+import com.backendagenda.AgendaApplication.entities.Schedule;
 import com.backendagenda.AgendaApplication.entities.User;
+import org.springframework.security.core.GrantedAuthority;
+
 import javax.persistence.Column;
 
 import javax.validation.constraints.NotBlank;
+import java.util.ArrayList;
+import java.util.List;
 
 public class UserDTO {
     private Long id;
@@ -13,6 +18,7 @@ public class UserDTO {
     private String email;
     @NotBlank(message = "Campo requerido")
     private String password;
+    private List<String> roles = new ArrayList<>();
 
     public UserDTO() {
     }
@@ -23,11 +29,15 @@ public class UserDTO {
         this.email = email;
         this.password = password;
     }
+
     public UserDTO(User entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.email = entity.getEmail();
         this.password = entity.getPassword();
+        for (GrantedAuthority role : entity.getAuthorities()) {
+            roles.add(role.getAuthority());
+        }
     }
 
     public Long getId() {
@@ -60,5 +70,9 @@ public class UserDTO {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<String> getRoles() {
+        return roles;
     }
 }

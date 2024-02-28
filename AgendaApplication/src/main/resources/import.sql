@@ -1,4 +1,60 @@
-INSERT INTO tb_user(name, email, password) VALUES ('Kengi Ortega', 'kortega@hotmail.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
+-- Criação das tabelas
+
+-- Tabela de usuários
+CREATE TABLE IF NOT EXISTS tb_user (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL
+);
+
+-- Tabela de papéis (roles)
+CREATE TABLE IF NOT EXISTS tb_role (
+    id SERIAL PRIMARY KEY,
+    authority VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- Tabela de associação entre usuário e papel (role)
+CREATE TABLE IF NOT EXISTS tb_user_role (
+    user_id INT NOT NULL,
+    role_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (role_id) REFERENCES tb_role(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, role_id)
+);
+
+-- Tabela de agendas (schedules)
+CREATE TABLE IF NOT EXISTS tb_schedule (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    expiration_date DATE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMP NOT NULL DEFAULT NOW()
+);
+
+-- Tabela de contatos
+CREATE TABLE IF NOT EXISTS tb_contact (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    cep VARCHAR(8),
+    email VARCHAR(255),
+    phone VARCHAR(20),
+    cnpj VARCHAR(14),
+    cpf VARCHAR(14),
+    schedule_id INT NOT NULL,
+    FOREIGN KEY (schedule_id) REFERENCES tb_schedule(id) ON DELETE CASCADE
+);
+
+-- Tabela de associação entre usuário e agenda
+CREATE TABLE IF NOT EXISTS user_schedule (
+    user_id INT NOT NULL,
+    schedule_id INT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES tb_user(id) ON DELETE CASCADE,
+    FOREIGN KEY (schedule_id) REFERENCES tb_schedule(id) ON DELETE CASCADE,
+    PRIMARY KEY (user_id, schedule_id)
+);
+
+INSERT INTO tb_user(name, email, password) VALUES ('Kengi Ortega', 'kortega90@hotmail.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('Maria Silva', 'maria.silva@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('John Doe', 'john.doe@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('Alice Johnson', 'alice.johnson@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
@@ -18,6 +74,7 @@ INSERT INTO TB_SCHEDULE (name, expiration_date, created_at, updated_at) VALUES (
 INSERT INTO TB_SCHEDULE (name, expiration_date, created_at, updated_at) VALUES ('Conferência Anual', '2024-03-20', NOW(), NOW());
 
 --Inserção dos contatos
+
 -- Inserção do contato 1 (João Silva)
 INSERT INTO tb_contact (name, cep, email, phone, cnpj, cpf, schedule_id) VALUES ('João Silva', '12345678', 'contato1@example.com', '123456789', NULL, '123.456.789-10', 1);
 
@@ -36,9 +93,8 @@ INSERT INTO tb_contact (name, cep, email, phone, cnpj, cpf, schedule_id) VALUES 
 -- Inserção do contato 6 (Empresa C)
 INSERT INTO tb_contact (name, cep, email, phone, cnpj, cpf, schedule_id) VALUES ('Empresa C', '34567890', 'contato6@example.com', '345678901', '90123456789012', NULL, 4);
 
-
-
 ---- Inserção dos usuários nas agendas
+
 -- Inserção do usuário 1 (Kengi Ortega) na agenda 1 (Reunião de Equipe)
 INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'Kengi Ortega'), 1);
 

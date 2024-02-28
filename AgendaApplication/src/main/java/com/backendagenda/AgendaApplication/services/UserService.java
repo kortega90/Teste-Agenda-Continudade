@@ -1,10 +1,13 @@
 package com.backendagenda.AgendaApplication.services;
 
 import com.backendagenda.AgendaApplication.dto.UserDTO;
+import com.backendagenda.AgendaApplication.dto.UserMinDTO;
+import com.backendagenda.AgendaApplication.entities.Role;
 import com.backendagenda.AgendaApplication.entities.User;
 import com.backendagenda.AgendaApplication.repositories.UserRepository;
 import com.backendagenda.AgendaApplication.services.exceptions.ResourNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.CommandLineRunner;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -13,6 +16,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,6 +30,9 @@ public class UserService implements UserDetailsService {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public Page<UserDTO> getAllUsers(String name, Pageable pageable) {
         Page<User> users = repository.searchByName(name, pageable);
         return users.map(UserDTO::new);
@@ -37,11 +44,18 @@ public class UserService implements UserDetailsService {
     }
 
     public UserDTO createUser(UserDTO userDTO) {
+
         User user = new User();
 
         user.setName(userDTO.getName());
         user.setEmail(userDTO.getEmail());
-        user.setPassword(userDTO.getPassword());
+        user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
+
+        userDTO.getRoles().forEach(roleName -> {
+            Role role = new Role();
+            role.setAuthority(roleName);
+            user.addRole(role);
+        });
 
         User savedUser = repository.save(user);
         return new UserDTO(savedUser);
@@ -65,7 +79,7 @@ public class UserService implements UserDetailsService {
             User existingUser = optionalUser.get();
             existingUser.setName(dto.getName());
             existingUser.setEmail(dto.getEmail());
-            existingUser.setPassword(dto.getPassword());
+            existingUser.setPassword(passwordEncoder.encode(dto.getPassword()));
             User updatedUser = repository.save(existingUser);
             return new UserDTO(updatedUser);
         } else {

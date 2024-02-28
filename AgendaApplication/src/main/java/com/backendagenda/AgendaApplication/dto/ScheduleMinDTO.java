@@ -3,12 +3,20 @@ package com.backendagenda.AgendaApplication.dto;
 import com.backendagenda.AgendaApplication.entities.Contact;
 import com.backendagenda.AgendaApplication.entities.Schedule;
 import com.backendagenda.AgendaApplication.entities.User;
+import org.springframework.http.HttpStatus;
 
+import javax.validation.ConstraintViolation;
+import javax.validation.Validation;
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.time.Instant;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 public class ScheduleMinDTO {
 
@@ -80,5 +88,44 @@ public class ScheduleMinDTO {
 
     public List<ContactDTO> getContacts() {
         return contacts;
+    }
+
+    public ValidationError validate() {
+        ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
+        Validator validator = factory.getValidator();
+
+        // Lista para armazenar os erros de validação
+        List<FieldMessage> fieldMessages = new ArrayList<>();
+
+        // Validar o ScheduleMinDTO
+        Set<ConstraintViolation<ScheduleMinDTO>> scheduleMinDTOViolations = validator.validate(this);
+        for (ConstraintViolation<ScheduleMinDTO> violation : scheduleMinDTOViolations) {
+            fieldMessages.add(new FieldMessage(violation.getPropertyPath().toString(), violation.getMessage()));
+        }
+
+        // Validar cada ContactDTO
+        for (ContactDTO contactDTO : contacts) {
+            Set<ConstraintViolation<ContactDTO>> contactDTOViolations = validator.validate(contactDTO);
+            for (ConstraintViolation<ContactDTO> violation : contactDTOViolations) {
+                fieldMessages.add(new FieldMessage(violation.getPropertyPath().toString(), violation.getMessage()));
+            }
+        }
+
+        // Se houver erros, criar e retornar um objeto ValidationError
+        if (!fieldMessages.isEmpty()) {
+            Instant timestamp = Instant.now(); // Obtém o carimbo de data/hora atual
+            Integer status = HttpStatus.UNPROCESSABLE_ENTITY.value(); // Código de status HTTP 422 para dados inválidos
+            String error = "Erro de validação"; // Descrição do erro
+            String path = "/api/schedule"; // Caminho do endpoint onde ocorreu o erro
+            LocalDateTime localDateTime = LocalDateTime.now(); // Data/hora local atual
+            LocalDate localDate = LocalDate.now(); // Data local atual
+
+            ValidationError validationError = new ValidationError(timestamp, status, error, path, localDateTime, localDate);
+            fieldMessages.forEach(message -> validationError.addError(message.getFieldName(), message.getMessage()));
+            return validationError;
+        }
+
+        // Se não houver erros, retornar null
+        return null;
     }
 }

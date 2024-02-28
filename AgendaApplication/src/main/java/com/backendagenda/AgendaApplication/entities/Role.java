@@ -46,4 +46,14 @@ public class Role implements GrantedAuthority {
     public Set<User> getUsers() {
         return users;
     }
+
+    public void addUser(User user) {
+        users.add(user);
+        user.getRoles().add(this);
+    }
+
+    public void removeUser(User user) {
+        users.remove(user);
+        user.getRoles().remove(this);
+    }
 }

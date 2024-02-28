@@ -1,6 +1,7 @@
 package com.backendagenda.AgendaApplication.controllers;
 
 import com.backendagenda.AgendaApplication.dto.UserDTO;
+import com.backendagenda.AgendaApplication.dto.UserMinDTO;
 import com.backendagenda.AgendaApplication.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -42,10 +43,10 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping
-    public ResponseEntity<UserDTO> createUser(@Valid @RequestBody UserDTO dto) {
+    public ResponseEntity<UserMinDTO> createUser(@Valid @RequestBody UserDTO dto) {
         dto = userService.createUser(dto);
         URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(dto.getId()).toUri();
-        return ResponseEntity.created(uri).body(dto);
+        return ResponseEntity.created(uri).body(new UserMinDTO(dto));
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
@@ -57,11 +58,11 @@ public class UserController {
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PutMapping("/update/{id}")
-    public ResponseEntity<UserDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
+    public ResponseEntity<UserMinDTO> updateUser(@PathVariable Long id, @Valid @RequestBody UserDTO dto) {
         dto = userService.updateUser(id, dto);
 
         if (dto != null) {
-            return ResponseEntity.ok(dto);
+            return ResponseEntity.ok(new UserMinDTO(dto));
         } else {
             return ResponseEntity.notFound().build();
         }

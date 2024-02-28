@@ -1,3 +1,52 @@
+-- Criação da tabela tb_user
+CREATE TABLE IF NOT EXISTS tb_user (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    email VARCHAR(100) UNIQUE NOT NULL,
+    password VARCHAR(100) NOT NULL
+);
+
+-- Criação da tabela tb_roleS
+CREATE TABLE IF NOT EXISTS tb_role (
+    id SERIAL PRIMARY KEY,
+    authority VARCHAR(50) UNIQUE NOT NULL
+);
+
+-- Criação da tabela tb_user_role
+CREATE TABLE IF NOT EXISTS tb_user_role (
+    user_id INT REFERENCES tb_user(id),
+    role_id INT REFERENCES tb_role(id),
+    PRIMARY KEY (user_id, role_id)
+);
+
+-- Criação da tabela tb_schedule
+CREATE TABLE IF NOT EXISTS tb_schedule (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    expiration_date DATE NOT NULL,
+    created_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    updated_at TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);
+
+-- Criação da tabela tb_contact
+CREATE TABLE IF NOT EXISTS tb_contact (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    cep VARCHAR(8) NOT NULL,
+    email VARCHAR(100),
+    phone VARCHAR(20),
+    cnpj VARCHAR(14),
+    cpf VARCHAR(14),
+    schedule_id INT REFERENCES tb_schedule(id)
+);
+
+-- Criação da tabela user_schedule
+CREATE TABLE IF NOT EXISTS user_schedule (
+    user_id INT REFERENCES tb_user(id),
+    schedule_id INT REFERENCES tb_schedule(id),
+    PRIMARY KEY (user_id, schedule_id)
+);
+
 INSERT INTO tb_user(name, email, password) VALUES ('Kengi Ortega', 'kortega90@hotmail.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('Maria Silva', 'maria.silva@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('John Doe', 'john.doe@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');

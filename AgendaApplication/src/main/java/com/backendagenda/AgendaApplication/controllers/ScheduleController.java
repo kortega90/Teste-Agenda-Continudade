@@ -2,6 +2,7 @@ package com.backendagenda.AgendaApplication.controllers;
 
 import com.backendagenda.AgendaApplication.dto.ScheduleDTO;
 import com.backendagenda.AgendaApplication.dto.ScheduleMinDTO;
+import com.backendagenda.AgendaApplication.dto.ValidationError;
 import com.backendagenda.AgendaApplication.services.EmailService;
 import com.backendagenda.AgendaApplication.services.ScheduleService;
 
@@ -10,6 +11,7 @@ import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -73,7 +75,13 @@ public class ScheduleController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/{scheduleId}/contacts")
     @Transactional
-    public ResponseEntity<ScheduleMinDTO> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {
+    public ResponseEntity<?> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {
+        // Validação do ScheduleMinDTO
+        ValidationError error = dto.validate();
+        if (error != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
+        }
+
         scheduleService.sendEmailsForSchedule(scheduleId); // Envie e-mails para os usuários associados ao agendamento
         return ResponseEntity.ok(scheduleService.updateContactToSchedule(scheduleId, dto));
     }

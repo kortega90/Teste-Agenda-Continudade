@@ -14,7 +14,7 @@
   .agenda-table th, .agenda-table td {
     border: 1px solid #dddddd;
     padding: 8px;
-    text-align: left;
+    text-align: center;
   }
   
   .agenda-table th {

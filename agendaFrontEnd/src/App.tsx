@@ -1,9 +1,10 @@
-import ContactCatalog from "./routes/ContactCatalog";
+
+import ScheduleCatalog from "./routes/ScheduleCatalog";
 
 export default function App() {
   return (
     <>
-      <ContactCatalog></ContactCatalog>
+      <ScheduleCatalog/>
     </>
   );
 }

@@ -5,20 +5,23 @@ import "./styles.css";
 export default function ScheduleTableBody() {
   return (
     <>
-      <tbody>
-        <tr>
-          <td className="name">Agenda 1</td>
-          <td className="expiration-date">2024-02-28</td>
+      <tbody className="body-table-schedule">
+        <tr >
+          <td className="name body-table-schedule">Agenda 1</td>
+          <td className="expiration-date body-table-schedule">2024-02-28</td>
           <td className="created-at">2024-02-20</td>
           <td className="updated-at">2024-02-25</td>
           <td className="users">User 1, User 2, User 3</td>
           <td className="actions">
             <div className="actions-icons">
               <div className="edit-button dsc-menu-items-container">
-                <img src={edit} alt="Carrinho de compras" />
+                <img src={edit} alt="Editar" />
               </div>
               <div className="delete-button dsc-menu-items-container">
-                <img src={del} alt="Carrinho de compras" />
+                <img src={del} alt="Excluir" />
+              </div>
+              <div className="access-button dsc-menu-items-container access-button">
+                <button>Acessar</button>
               </div>
             </div>
           </td>

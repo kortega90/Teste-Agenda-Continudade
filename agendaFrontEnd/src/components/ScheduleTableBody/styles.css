@@ -1,0 +1,16 @@
+.body-table-schedule{
+    text-align: center;
+}
+
+.access-button button {
+    border: none;
+    background-color: #4caf50; /* Cor de fundo */
+    color: white; /* Cor do texto */
+    padding: 8px 16px; /* Espaçamento interno */
+    border-radius: 20px; /* Borda arredondada */
+    cursor: pointer;
+  }
+  
+  .access-button button:hover {
+    background-color: #45a049; /* Cor de fundo ao passar o mouse */
+  }

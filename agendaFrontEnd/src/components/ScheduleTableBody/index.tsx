@@ -1,32 +1,52 @@
 import edit from "../../assets/edit-icon.svg";
 import del from "../../assets/delete-button.svg";
 import "./styles.css";
+import { ScheduleDTO } from "../../models/schedule";
+import { TableBody, TableRow, TableCell, Button } from "@mui/material";
 
-export default function ScheduleTableBody() {
+
+type Props = {
+  schedule: ScheduleDTO
+  };
+
+export default function ScheduleTableBody({ schedule }: Props) {
+
+  function truncateName(name: string) {
+    return name.length > 7  ? name.substring(0, 5) : name;
+  }
+
   return (
     <>
-      <tbody className="body-table-schedule">
-        <tr >
-          <td className="name body-table-schedule">Agenda 1</td>
-          <td className="expiration-date body-table-schedule">2024-02-28</td>
-          <td className="created-at">2024-02-20</td>
-          <td className="updated-at">2024-02-25</td>
-          <td className="users">User 1, User 2, User 3</td>
-          <td className="actions">
-            <div className="actions-icons">
-              <div className="edit-button dsc-menu-items-container">
-                <img src={edit} alt="Editar" />
-              </div>
-              <div className="delete-button dsc-menu-items-container">
-                <img src={del} alt="Excluir" />
-              </div>
-              <div className="access-button dsc-menu-items-container access-button">
-                <button>Acessar</button>
-              </div>
+    <TableBody className="body-table-schedule">
+      <TableRow>
+        <TableCell className="name body-table-schedule">{schedule.name}</TableCell>
+        <TableCell className="expiration-date body-table-schedule">{schedule.expirationDate}</TableCell>
+        <TableCell className="created-at">{schedule.createdAt}</TableCell>
+        <TableCell className="updated-at">{schedule.updatedAt}</TableCell>
+        <TableCell className="users">
+          {schedule.users.map((user) => (
+            <Button key={user.id} className="user-button" title={user.name} style={{border:"1px solid #45a049", marginLeft:"4px"}}>
+              {truncateName(user.name)}
+            </Button>
+          ))}
+        </TableCell>
+        <TableCell className="actions">
+          <div className="actions-icons">
+            <div className="edit-button dsc-menu-items-container">
+              <img src={edit} alt="Editar" />
             </div>
-          </td>
-        </tr>
-      </tbody>
+            <div className="delete-button dsc-menu-items-container">
+              <img src={del} alt="Excluir" />
+            </div>
+            <div className="access-button dsc-menu-items-container">
+              <Button>Acessar</Button>
+            </div>
+          </div>
+        </TableCell>
+      </TableRow>
+    </TableBody>
+
+
     </>
   );
 }

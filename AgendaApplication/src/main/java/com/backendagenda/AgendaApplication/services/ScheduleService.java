@@ -26,7 +26,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -52,12 +52,27 @@ public class ScheduleService {
         }
     }
 
-    public List<ScheduleDTO> getSchedulesByUserId(Long userId) {
+    public Set<ScheduleDTO> getSchedulesByUserId(Long userId) {
         User user = userRepository.findById(userId).orElseThrow(() -> new ResourNotFoundException("Usuario não encontrada com ID : " + userId));
-        List<Schedule> schedules = user.getSchedules();
-        return schedules.stream().map(ScheduleDTO::new).collect(Collectors.toList());
+
+
+        // Usar um Map para manter os ScheduleDTOs únicos com base no ID do agendamento
+        Map<Long, ScheduleDTO> uniqueSchedules = new HashMap<>();
+
+        // Iterar sobre os agendamentos do usuário e adicionar ao Map, garantindo que não haja duplicatas com o mesmo ID de agendamento
+        for (Schedule schedule : user.getSchedules()) {
+            uniqueSchedules.putIfAbsent(schedule.getId(), new ScheduleDTO(schedule));
+        }
+
+        // Retornar os ScheduleDTOs únicos como um Set
+        return new HashSet<>(uniqueSchedules.values());
     }
 
+    public ScheduleDTO getScheduleById(Long scheduleId) {
+        Schedule schedule = scheduleRepository.findById(scheduleId)
+                .orElseThrow(() -> new ResourNotFoundException("Agenda não encontrada com ID: " + scheduleId));
+        return new ScheduleDTO(schedule);
+    }
 
     public ScheduleDTO addSchedule(ScheduleDTO dto) {
         try {
@@ -153,4 +168,6 @@ public class ScheduleService {
             emailService.sendEmail(email, "Modificação de contatos nas agendas", "contactos atualizado com sucesso"); // Implemente o serviço de envio de e-mail
         }
     }
+
+
 }

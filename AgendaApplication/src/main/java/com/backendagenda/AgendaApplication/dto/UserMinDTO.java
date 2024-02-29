@@ -17,13 +17,7 @@ public class UserMinDTO {
     public UserMinDTO() {
     }
 
-    public UserMinDTO(User entity) {
-        this.id = entity.getId();
-        this.name = entity.getName();
-        this.email = entity.getEmail();
-    }
-
-    public UserMinDTO(UserDTO entity) {
+     public UserMinDTO(UserDTO entity) {
         this.id = entity.getId();
         this.name = entity.getName();
         this.email = entity.getEmail();

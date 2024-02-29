@@ -98,7 +98,7 @@ INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user
 INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'Kengi Ortega'), 3);
 
 -- Inserção do usuário 2 (Maria Silva) na agenda 2 (Apresentação do Projeto)
-INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'Maria Silva'), 2);
+INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'Maria Silva'), 3);
 
 -- Inserção do usuário 3 (John Doe) na agenda 3 (Entrevista de Emprego)
 INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'John Doe'), 3);
@@ -108,5 +108,9 @@ INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user
 
 -- Inserção do usuário 4 (Alice Johnson) na agenda 4 (Treinamento de Novos Funcionários)
 INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'Alice Johnson'), 4);
+
+-- Inserção do usuário 1 (Kengi Ortega) na agenda 5 (Apresentação do Projeto)
+INSERT INTO USER_SCHEDULE (user_id, schedule_id) VALUES ((SELECT id FROM tb_user WHERE name = 'Kengi Ortega'), 5);
+
 
 

@@ -4,7 +4,7 @@ import iconAdmin from '../../assets/user-admin.svg'
 export default function HeaderClient() {
   return (
     <>
-      <header className="dsc-header-client">
+      <header className="dsc-header-client dsc-mb20 ">
         <nav className="dsc-container">
           <h1>DSAgenda</h1>
           <div className="dsc-navbar-right">

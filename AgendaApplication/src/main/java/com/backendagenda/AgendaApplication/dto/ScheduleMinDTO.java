@@ -27,6 +27,7 @@ public class ScheduleMinDTO {
 
     private List<UserToScheduleDTO> users = new ArrayList<UserToScheduleDTO>();
     private List<ContactDTO> contacts = new ArrayList<ContactDTO>();
+
     // Construtor
 
     public ScheduleMinDTO(Schedule entity) {

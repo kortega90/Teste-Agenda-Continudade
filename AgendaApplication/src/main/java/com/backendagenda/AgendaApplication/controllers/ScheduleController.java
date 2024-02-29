@@ -20,6 +20,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import javax.validation.Valid;
 import java.net.URI;
 import java.util.List;
+import java.util.Set;
 
 
 @RestController
@@ -45,9 +46,18 @@ public class ScheduleController {
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @GetMapping("/user/{userId}")
-    public ResponseEntity<List<ScheduleDTO>> getSchedulesByUserId(@PathVariable Long userId) {
+    public ResponseEntity<Set<ScheduleDTO>> getSchedulesByUserId(@PathVariable Long userId) {
         return ResponseEntity.ok(scheduleService.getSchedulesByUserId(userId));
     }
+
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+    @Transactional
+    @GetMapping("/{scheduleId}")
+    public ResponseEntity<ScheduleDTO> getScheduleById(@PathVariable Long scheduleId) {
+        ScheduleDTO scheduleDTO = scheduleService.getScheduleById(scheduleId);
+        return ResponseEntity.ok(scheduleDTO);
+    }
+
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
@@ -73,7 +83,7 @@ public class ScheduleController {
     }
 
     @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @PostMapping("/{scheduleId}/contacts")
+    @PostMapping("/contacts/{scheduleId}")
     @Transactional
     public ResponseEntity<?> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {
         // Validação do ScheduleMinDTO

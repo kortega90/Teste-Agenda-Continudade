@@ -1,3 +1,6 @@
+import './styles.css'
+import iconAdmin from '../../assets/user-admin.svg'
+
 export default function HeaderClient() {
   return (
     <>
@@ -7,10 +10,9 @@ export default function HeaderClient() {
           <div className="dsc-navbar-right">
             <div className="dsc-menu-items-container">
               <div className="dsc-menu-item">
-                <img src={""} alt="Carrinho de compras" />
+                <img src={iconAdmin} alt="Carrinho de compras" />
               </div>
             </div>
-            <a href="#">Entrar</a>
           </div>
         </nav>
       </header>

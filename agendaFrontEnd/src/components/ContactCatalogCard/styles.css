@@ -1,0 +1,80 @@
+/* Estilos para a tabela */
+.table-container {
+  overflow-x: auto;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.agenda-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+.agenda-table th, .agenda-table td {
+  border: 1px solid #dddddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.agenda-table th {
+  background-color: #f2f2f2;
+}
+
+.agenda-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.agenda-table tbody tr:hover {
+  background-color: #ddd;
+}
+
+.actions-icons {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px;
+}
+
+/* Estilos para dispositivos móveis */
+
+@media only screen and (max-width: 365px) and (min-height: 600px) {
+  .table-container {
+    overflow-x: auto;
+
+  }
+
+  .agenda-table {
+    border-collapse: collapse;
+    width: 100%;
+    border: 1px solid #ddd;
+    white-space: nowrap; /* Evita que o texto seja quebrado em várias linhas */
+  }
+
+  .agenda-table th, .agenda-table td {
+    padding: 4px; /* Reduzindo o espaçamento */
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 12px; /* Reduzindo o tamanho da fonte */
+  }
+
+  .agenda-table th {
+    background-color: #f2f2f2;
+  }
+
+  .agenda-table td {
+    background-color: #fff;
+  }
+
+  .agenda-table th, .agenda-table td:before {
+    display: none;
+  }
+
+  .agenda-table th:nth-child(1), .agenda-table td:nth-child(1),
+  .agenda-table th:nth-child(2), .agenda-table td:nth-child(2),
+  .agenda-table th:nth-child(3), .agenda-table td:nth-child(3),
+  .agenda-table th:nth-child(4), .agenda-table td:nth-child(4),
+  .agenda-table th:nth-child(5), .agenda-table td:nth-child(5),
+  .agenda-table th:nth-child(6), .agenda-table td:nth-child(6) {
+    display: table-cell;
+  }
+}

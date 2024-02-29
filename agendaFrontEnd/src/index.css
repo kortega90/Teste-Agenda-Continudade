@@ -81,75 +81,6 @@ main {
     font-size: 24px;
   }
 }
-/*tabelas*/
-
-/* Estilos para a tabela */
-.table-container {
-  overflow-x: auto;
-}
-
-.agenda-table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.agenda-table th, .agenda-table td {
-  border: 1px solid #dddddd;
-  padding: 8px;
-  text-align: left;
-}
-
-.agenda-table th {
-  background-color: #f2f2f2;
-}
-
-.agenda-table tbody tr:nth-child(even) {
-  background-color: #f2f2f2;
-}
-
-.agenda-table tbody tr:hover {
-  background-color: #ddd;
-}
-
-/* Estilos para dispositivos móveis */
-@media only screen and (max-width: 600px) {
-  .agenda-table {
-    border-collapse: separate;
-    border-spacing: 0 8px;
-  }
-
-  .agenda-table th, .agenda-table td {
-    display: block;
-    text-align: center;
-  }
-
-  .agenda-table th {
-    text-align: center;
-  }
-
-  .agenda-table td {
-    border: none;
-    border-bottom: 1px solid #dddddd;
-    position: relative;
-    padding-left: 50%;
-    text-align: left;
-  }
-
-  .agenda-table td:before {
-    position: absolute;
-    top: 6px;
-    left: 6px;
-    width: 45%;
-    padding-right: 10px;
-    white-space: nowrap;
-    content: attr(data-label);
-    font-weight: bold;
-  }
-
-  .agenda-table td:last-child {
-    border-bottom: none;
-  }
-}
 
 
 /*-----------------------------------------------------------------*/
@@ -162,10 +93,6 @@ header {
   padding: 0 20px;
 }
 
-.dsc-header-client {
-  background-color: var(--dsc-color-bg-secondary);
-  color: var(--dsc-color-font-primary);
-}
 
 .dsc-header-admin {
   background-color: var(--dsc-color-bg-quaternary);
@@ -196,8 +123,8 @@ nav a {
 }
 
 .dsc-menu-items-container img {
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
 }
 
 .dsc-menu-item {
@@ -309,51 +236,6 @@ nav a {
   font-size: 16px;
   font-weight: 700;
   cursor: pointer;
-}
-
-/*-----------------------------------------------------------------*/
-/* search bar styles */
-
-.dsc-search-bar {
-  height: 40px;
-  display: flex;
-  color: var(--dsc-color-font-primary);
-}
-
-.dsc-search-bar button, .dsc-search-bar input {
-  border: 1px solid var(--dsc-color-card-border);
-}
-
-.dsc-search-bar input {
-  width: calc(100% - 80px);
-  border-left: none;
-  border-right: none;
-  padding: 0 10px;
-  font-size: 16px;
-  color: var(--dsc-color-font-primary);
-}
-
-.dsc-search-bar input:focus {
-  outline: none;
-}
-
-.dsc-search-bar input::placeholder {
-  color: var(--dsc-color-font-placeholder);
-}
-
-.dsc-search-bar button {
-  width: 40px;
-  color: var(--dsc-color-font-primary);
-}
-
-.dsc-search-bar button[type="submit"] {
-  border-right: none;
-  border-radius: 4px 0 0 4px;
-}
-
-.dsc-search-bar button[type="reset"] {
-  border-left: none;
-  border-radius: 0 4px 4px 0;
 }
 
 /*-----------------------------------------------------------------*/

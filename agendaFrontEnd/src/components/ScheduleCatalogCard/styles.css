@@ -31,8 +31,8 @@
   
   .actions-icons {
     display: flex;
-    justify-content: space-between;
-    padding: 5px;
+    justify-content:space-around;
+    padding: 0 10px;
 }
 
   /* Estilos para dispositivos móveis */

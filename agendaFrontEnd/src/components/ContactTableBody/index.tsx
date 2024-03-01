@@ -16,6 +16,7 @@ export default function ContactCatalogCard({ contact }: Props) {
         <TableRow>
           <TableCell>{contact.name}</TableCell>
           <TableCell>{contact.cep}</TableCell>
+          <TableCell>{contact.email}</TableCell>
           <TableCell>{contact.phone}</TableCell>
           <TableCell>{contact.cnpj ? contact.cnpj : "-"}</TableCell>
           <TableCell>{contact.cpf ? contact.cpf : "_"}</TableCell>

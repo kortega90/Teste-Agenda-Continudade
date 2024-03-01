@@ -1,24 +1,22 @@
 
 
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Navigate, Route } from "react-router-dom";
 import ScheduleCatalog from "./routes/ClientHome/ScheduleCatalog";
 import ClientHome from "./routes/ClientHome";
+import { Routes } from "react-router-dom";
+import ContactCatalog from "./routes/ClientHome/ContactCatalog";
 
 
 export default function App() {
   return (
     <BrowserRouter>
     <Routes>
-
       <Route path="/" element={<ClientHome />}>
-
         <Route index element={<ScheduleCatalog />} />
         <Route path="/schedule" element={<ScheduleCatalog />} />
-        <Route path="/schedule/contacts/:scheduleId" element={<ScheduleCatalog />} />
-        <Route path="*" element={<h2>NotFound</h2>}
-        />
-
+        <Route path="/schedule/contacts/:scheduleId" element={<ContactCatalog />} />
       </Route>
+      <Route path="*" element={<Navigate to={"/"}/>} />
     </Routes>
   </BrowserRouter>
   )

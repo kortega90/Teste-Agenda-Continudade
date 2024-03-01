@@ -9,12 +9,28 @@ import {
 import ContactTableBody from "../ContactTableBody";
 import * as scheduleService from "../../services/schedule.service";
 import "./styles.css";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { ScheduleDTO } from "../../models/Schedule";
 
 export default function ContactCatalogCard() {
 
-  const params = useParams();
-  const schedule = scheduleService.findbyId(Number(params.scheduleId));
+   const params = useParams();
+   const navigate = useNavigate();
+  const [schedule,setSchedule] = useState<ScheduleDTO | undefined>();
+
+  useEffect(()=>{
+
+    const fetchedSchedule = scheduleService.findbyId(Number(params.scheduleId));
+    if (fetchedSchedule === undefined) {
+      navigate("/");
+    } else {
+      setSchedule(fetchedSchedule);
+    }
+
+  },[params.scheduleId,navigate])
+
+  // const schedule = scheduleService.findbyId(Number(params.scheduleId));
 
   return (
     <>

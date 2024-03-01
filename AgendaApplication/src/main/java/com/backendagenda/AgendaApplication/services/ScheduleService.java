@@ -52,25 +52,22 @@ public class ScheduleService {
         }
     }
 
-    public Set<ScheduleDTO> getSchedulesByUserId(Long userId) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ResourNotFoundException("Usuario não encontrada com ID : " + userId));
-
-
-        // Usar um Map para manter os ScheduleDTOs únicos com base no ID do agendamento
-        Map<Long, ScheduleDTO> uniqueSchedules = new HashMap<>();
-
-        // Iterar sobre os agendamentos do usuário e adicionar ao Map, garantindo que não haja duplicatas com o mesmo ID de agendamento
-        for (Schedule schedule : user.getSchedules()) {
-            uniqueSchedules.putIfAbsent(schedule.getId(), new ScheduleDTO(schedule));
+    public Page<ScheduleDTO> getSchedulesByUserId(String name, Pageable pageable, Long userId) {
+        try {
+            return scheduleRepository.findByUserId(name, pageable, userId);
+        } catch (Exception ex) {
+            throw new ResourNotFoundException("Usuário não encontrado com ID: " + userId + ex);
         }
-
-        // Retornar os ScheduleDTOs únicos como um Set
-        return new HashSet<>(uniqueSchedules.values());
     }
 
-    public ScheduleDTO getScheduleById(Long scheduleId) {
+    public ScheduleDTO getContactByIdSchedules(String nameContact, Long scheduleId) {
         Schedule schedule = scheduleRepository.findById(scheduleId)
                 .orElseThrow(() -> new ResourNotFoundException("Agenda não encontrada com ID: " + scheduleId));
+
+        if (!nameContact.isEmpty()) {
+            schedule.getContacts().removeIf(contact -> !contact.getName().contains(nameContact));
+        }
+
         return new ScheduleDTO(schedule);
     }
 

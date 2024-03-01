@@ -14,7 +14,7 @@ export default function App() {
       <Route path="/" element={<ClientHome />}>
         <Route index element={<ScheduleCatalog />} />
         <Route path="/schedule" element={<ScheduleCatalog />} />
-        <Route path="/schedule/contacts/:scheduleId" element={<ContactCatalog />} />
+        <Route path="/schedule/:scheduleId" element={<ContactCatalog />} />
       </Route>
       <Route path="*" element={<Navigate to={"/"}/>} />
     </Routes>

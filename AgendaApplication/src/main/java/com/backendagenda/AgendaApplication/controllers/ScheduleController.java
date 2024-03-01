@@ -36,30 +36,32 @@ public class ScheduleController {
         this.scheduleService = scheduleService;
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<Page<ScheduleDTO>> getAllSchedules(
             @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {
         return ResponseEntity.ok(scheduleService.getAllSchedules(name, pageable));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @GetMapping("/user/{userId}")
-    public ResponseEntity<Set<ScheduleDTO>> getSchedulesByUserId(@PathVariable Long userId) {
-        return ResponseEntity.ok(scheduleService.getSchedulesByUserId(userId));
+    public ResponseEntity<Page<ScheduleDTO>> getSchedulesByUserId(
+            @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable, @PathVariable Long userId) {
+        return ResponseEntity.ok(scheduleService.getSchedulesByUserId(name,pageable,userId));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @GetMapping("/{scheduleId}")
-    public ResponseEntity<ScheduleDTO> getScheduleById(@PathVariable Long scheduleId) {
-        ScheduleDTO scheduleDTO = scheduleService.getScheduleById(scheduleId);
+    public ResponseEntity<ScheduleDTO> getContactByIdSchedules(
+            @RequestParam(name = "name", defaultValue = "") String name,@PathVariable Long scheduleId) {
+        ScheduleDTO scheduleDTO = scheduleService.getContactByIdSchedules(name,scheduleId);
         return ResponseEntity.ok(scheduleDTO);
     }
 
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @Transactional
     @PostMapping("/add")
     public ResponseEntity<ScheduleDTO> addSchedule(@Valid @RequestBody ScheduleDTO dto) {
@@ -69,20 +71,20 @@ public class ScheduleController {
 
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @DeleteMapping("/delete/{scheduleId}")
     public ResponseEntity<Void> deleteSchedule(@PathVariable Long scheduleId) {
         scheduleService.deleteSchedule(scheduleId);
         return ResponseEntity.noContent().build();
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PutMapping("/update/{scheduleId}")
     public ResponseEntity<ScheduleDTO> updateSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleDTO scheduleDetails) {
         return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, scheduleDetails));
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
+//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("/contacts/{scheduleId}")
     @Transactional
     public ResponseEntity<?> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {

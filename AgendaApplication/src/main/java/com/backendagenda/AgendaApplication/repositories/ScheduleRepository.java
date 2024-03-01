@@ -10,12 +10,16 @@ import org.springframework.data.repository.query.Param;
 import java.util.Optional;
 
 public interface ScheduleRepository extends JpaRepository<Schedule,Long> {
-//    @Query(" SELECT obj FROM com.backendagenda.AgendaApplication.entities.Schedule obj " +
-//            "WHERE UPPER(obj.name) LIKE UPPER(CONCAT('%', :name, '%'))")
-//
-//    Page<Schedule> searchByName(String name, Pageable pageable);
+
 @Query("SELECT new com.backendagenda.AgendaApplication.dto.ScheduleDTO(s) FROM Schedule s WHERE UPPER(s.name) LIKE UPPER(CONCAT('%', :name, '%'))")
 Page<ScheduleDTO> searchByName( String name, Pageable pageable);
+
+
+    @Query("SELECT new com.backendagenda.AgendaApplication.dto.ScheduleDTO(s) " +
+            "FROM Schedule s " +
+            "JOIN s.users u " +
+            "WHERE u.id = :userId AND UPPER(s.name) LIKE UPPER(CONCAT('%', :name, '%'))")
+Page<ScheduleDTO> findByUserId(String name, Pageable pageable, Long userId);
 
 }
 

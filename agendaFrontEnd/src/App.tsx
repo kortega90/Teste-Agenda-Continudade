@@ -8,6 +8,7 @@ import AdminHome from "./routes/Admin/AdminHome";
 import Admin from "./routes/Admin";
 import { unstable_HistoryRouter as HistoryRouter } from "react-router-dom";
 import { history } from "./utils/history";
+import { PrivateRoute } from "./components/PrivateRoute";
 
 export default function App() {
   return (
@@ -17,11 +18,11 @@ export default function App() {
         <Route path="/" element={<ClientHome />}>
           <Route index element={<Login />} />
           <Route path="login" element={<Login />} />
-          <Route path="schedule" element={<ScheduleCatalog />} />
+          <Route path="schedule/user/:userId" element={<ScheduleCatalog />} />
           <Route path="schedule/:scheduleId" element={<ContactCatalog />} />
         </Route>
 
-        <Route path="/admin/" element={<Admin />}>
+        <Route path="/admin/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Admin /></PrivateRoute>}>
           <Route index element={<Navigate to="/admin/home" />} />
           <Route path="home" element={<AdminHome />} />
         </Route>

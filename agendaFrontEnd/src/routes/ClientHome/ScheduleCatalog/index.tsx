@@ -7,12 +7,15 @@ import * as scheduleService from "../../../services/schedule.service";
 import "./styles.css";
 import { ScheduleDTO } from "../../../models/Schedule";
 import ButtonNextPage from "../../../components/ButtonNextPage";
+import { useParams } from "react-router-dom";
+
 
 type QueryParams = {
   page: number;
   name: string;
 };
 export default function ScheduleCatalog() {
+  const params = useParams();
   const [isLastPage, setIsLastPage] = useState(false);
   const [schedule, setSchedule] = useState<ScheduleDTO[]>([]);
   const [queryParams, setQueryParams] = useState<QueryParams>({
@@ -20,15 +23,16 @@ export default function ScheduleCatalog() {
     name: "",
   });
 
+
   useEffect(() => {
     scheduleService
-      .findAllSchedulesByUserId(Number(1), queryParams.page, queryParams.name)
+      .findAllSchedulesByUserId(Number(params.userId), queryParams.page, queryParams.name)
       .then((response) => {
         const nexPage = response.data.content;
         setSchedule(schedule.concat(nexPage));
         setIsLastPage(response.data.last);
       });
-  }, [queryParams]);
+  }, [queryParams,params.userId]);
 
   function handleSearch(searchText: string) {
     setSchedule([]);

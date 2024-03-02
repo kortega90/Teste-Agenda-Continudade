@@ -1,7 +1,4 @@
 
-import { useEffect, useState } from "react";
-import { ScheduleDTO } from "../../models/schedule";
-import * as scheduleService from "../../services/schedule.service";
 import ScheduleTableBody from "../ScheduleTableBody";
 import "./styles.css";
 
@@ -13,21 +10,25 @@ import {
   TableRow,
   TableCell,
 } from "@mui/material";
+import { ScheduleDTO } from "../../models/Schedule"
 
 
+type Props = {
+  schedule: ScheduleDTO[];
+};
 
-export default function ScheduleCatalogCard() {
+export default function ScheduleCatalogCard({ schedule }: Props) {
 
-  const [schedule,setSchedule] = useState<ScheduleDTO[]>([]);
+  // const [schedule,setSchedule] = useState<ScheduleDTO[]>([]);
 
-  useEffect(()=>{
+  // useEffect(()=>{
 
-  scheduleService.findAllSchedulesByUserId(Number(1))
-          .then(response => {
-            setSchedule(response.data.content);
-          });
+  // scheduleService.findAllSchedulesByUserId(Number(1))
+  //         .then((response: { data:{content: ScheduleDTO[]} }) => {
+  //           setSchedule(response.data.content);
+  //         });
 
-  },[])
+  // },[])
 
   return (
     <>

@@ -1,10 +1,7 @@
 import "./styles.css";
 import ContactTableBody from "../ContactTableBody";
 import "./styles.css";
-import { useNavigate, useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
-import { ScheduleDTO } from "../../models/schedule";
-import * as scheduleService from "../../services/schedule.service";
+import { ScheduleDTO } from "../../models/Schedule";
 import {
   TableContainer,
   Paper,
@@ -14,22 +11,25 @@ import {
   TableCell,
 } from "@mui/material";
 
+type Props = {
+  schedule: ScheduleDTO;
+};
 
-export default function ContactCatalogCard() {
-  const params = useParams();
-  const navigate = useNavigate();
-  const [schedule, setSchedule] = useState<ScheduleDTO | undefined>();
+export default function ContactCatalogCard({schedule}:Props) {
+  // const params = useParams();
+  // const navigate = useNavigate();
+  // const [schedule, setSchedule] = useState<ScheduleDTO | undefined>();
 
-  useEffect(() => {
-    scheduleService
-      .findScheduleById(Number(params.scheduleId))
-      .then((response) => {
-        setSchedule(response.data);
-      })
-      .catch(() => {
-        navigate("/");
-      });
-  }, [params.scheduleId, navigate]);
+  // useEffect(() => {
+  //   scheduleService
+  //     .findScheduleById(Number(params.scheduleId))
+  //     .then((response: { data: ScheduleDTO }) => {
+  //       setSchedule(response.data);
+  //     })
+  //     .catch(() => {
+  //       navigate("/");
+  //     });
+  // }, [params.scheduleId, navigate]);
 
 
   return (

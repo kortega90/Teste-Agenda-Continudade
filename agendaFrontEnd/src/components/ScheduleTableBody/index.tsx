@@ -5,8 +5,9 @@ import "./styles.css";
 import { TableBody, TableRow, TableCell, Button } from "@mui/material";
 
 // import { Link } from "react-router-dom";
-import { ScheduleDTO } from "../../models/schedule";
+
 import { NavLink } from "react-router-dom";
+import { ScheduleDTO } from "../../models/Schedule";
 
 type Props = {
   schedule: ScheduleDTO;
@@ -14,6 +15,7 @@ type Props = {
 
 export default function ScheduleTableBody({ schedule }: Props) {
 
+  
   function truncateName(name: string) {
     return name.length > 7 ? name.substring(0, 5) : name;
   }

@@ -65,7 +65,12 @@ public class ScheduleService {
                 .orElseThrow(() -> new ResourNotFoundException("Agenda não encontrada com ID: " + scheduleId));
 
         if (!nameContact.isEmpty()) {
-            schedule.getContacts().removeIf(contact -> !contact.getName().contains(nameContact));
+            String nameContactUpper = nameContact.toUpperCase(); // Converter para maiúsculas
+
+            schedule.getContacts().removeIf(contact -> {
+                String contactNameUpper = contact.getName().toUpperCase(); // Converter para maiúsculas
+                return !contactNameUpper.contains(nameContactUpper);
+            });
         }
 
         return new ScheduleDTO(schedule);

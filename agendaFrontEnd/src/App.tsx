@@ -13,7 +13,7 @@ import { AccessTokenPayloadDTO } from "./models/auth";
 import { useEffect, useState } from "react";
 import { ContextToken } from "./utils/context-token";
 import * as authService from "./services/auth-service"
-import ScheduleForm from "./components/ScheduleForm";
+import ScheduleForm from "./routes/ClientHome/ScheduleForm";
 
 export default function App() {
   
@@ -35,9 +35,7 @@ export default function App() {
           <Route path="login" element={<Login />} />
 
           <Route path="schedule/user/:userId" element={<ScheduleCatalog />}/>
-          <Route path="schedule/user/new" element={<ScheduleForm />}/>
-
-
+          <Route path="schedule/Form/:scheduleId" element={<ScheduleForm />}/>
           <Route path="schedule/:scheduleId" element={<ContactCatalog />} />
         </Route>
 

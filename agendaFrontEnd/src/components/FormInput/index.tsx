@@ -4,7 +4,7 @@
 
 export default function FormInput(props: any) {
 
-    const { validation,  ...inputProps } = props;
+    const { validation,  ...inputProps } = props; // eslint-disable-line
 
     return (
     <input  {...inputProps}/> 

@@ -22,7 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @GetMapping("/all")
     public ResponseEntity<Page<UserDTO>> getAllUsers(
             @RequestParam(name = "name", defaultValue = "") String name, Pageable pageable) {

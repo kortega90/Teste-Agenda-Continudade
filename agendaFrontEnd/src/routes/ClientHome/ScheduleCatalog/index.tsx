@@ -7,7 +7,7 @@ import * as scheduleService from "../../../services/schedule.service";
 import "./styles.css";
 import { ScheduleDTO } from "../../../models/Schedule";
 import ButtonNextPage from "../../../components/ButtonNextPage";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 // import DialogInfo from "../../../components/DialogInfo";
 
 type QueryParams = {
@@ -17,6 +17,8 @@ type QueryParams = {
 
 export default function ScheduleCatalog() {
   const params = useParams();
+  const navigate = useNavigate();
+
 
   const handleClearSchedule = () => {
     setSchedule([]);
@@ -53,15 +55,23 @@ export default function ScheduleCatalog() {
     setQueryParams({ ...queryParams, page: queryParams.page + 1 });
   }
 
+  function handleNewScheduleClick (){
+    navigate(`/schedule/Form/create`);
+  }
 
   return (
     <>
       <main>
         <section id="" className="dsc-container">
           <div className="dsc-btn-page-container dsc-mb20">
-            <div>
+
+            <div >
+              <div onClick={handleNewScheduleClick}>
               <ButtonInverse value="novo" />
+              </div>
+
             </div>
+
           </div>
 
           <div>

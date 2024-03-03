@@ -57,3 +57,13 @@ export function updateSchedule(obj: ScheduleDTO) {
   };
   return requestBackend(config);
 }
+
+export function addSchedule(obj: ScheduleDTO) {
+  const config: AxiosRequestConfig = {
+    method: "POST",
+    url: `/schedule/add/`,
+    withCredentials: true,
+    data: obj,
+  };
+  return requestBackend(config);
+}

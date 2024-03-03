@@ -104,8 +104,11 @@ export default function ScheduleForm() {
       requestBody.id =params.scheduleId;
     }
 
-    scheduleService
-      .updateSchedule(requestBody)
+    const request = isEditing
+    ? scheduleService.updateSchedule(requestBody)
+    : scheduleService.addSchedule(requestBody);
+
+    request
       .then(() => {
         navigate(`/schedule/user/${user?.id}`)
       });

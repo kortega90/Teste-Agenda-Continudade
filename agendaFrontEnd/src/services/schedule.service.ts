@@ -48,10 +48,10 @@ export function deleteById(id: number) {
   return requestBackend(config);
 }
 
-export function updateSchedule(id:number ,obj: ScheduleDTO) {
+export function updateSchedule(obj: ScheduleDTO) {
   const config: AxiosRequestConfig = {
     method: "PUT",
-    url: `/schedule/update/${id}`,
+    url: `/schedule/update/${obj.id}`,
     withCredentials: true,
     data: obj,
   };

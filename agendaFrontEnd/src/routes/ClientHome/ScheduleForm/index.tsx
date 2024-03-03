@@ -12,11 +12,9 @@ import * as forms from "../../../utils/forms";
 import FormSelect from "../../../components/FormSelect";
 
 export default function ScheduleForm() {
-  
   const params = useParams();
 
-  // const navigate =useNavigate();
-
+  const navigate =useNavigate();
 
   const isEditing = params.scheduleId != "create";
 
@@ -31,7 +29,6 @@ export default function ScheduleForm() {
     const day = String(date.getDate()).padStart(2, "0");
     return `${year}-${month}-${day}T00:00:00`;
   }
-
 
   useEffect(() => {
     userService
@@ -98,18 +95,20 @@ export default function ScheduleForm() {
     }));
   }
 
-  function handleSumit(event:any){
+  function handleSumit(event: any) {
     event.preventDefault();
 
-  const requestBody = forms.toValues(formData);
+    const requestBody = forms.toValues(formData);
 
-  console.log("🚀 ~ handleSumit ~ requestBody :", requestBody )
+    if (isEditing){
+      requestBody.id =params.scheduleId;
+    }
 
- 
-
-    scheduleService.updateSchedule(Number(params.scheduleId),requestBody).then(response => {
-      // navigate(`/schedule/user/${params.scheduleId}`)
-    })
+    scheduleService
+      .updateSchedule(requestBody)
+      .then(() => {
+        navigate(`/schedule/user/${user?.id}`)
+      });
   }
 
   return (
@@ -117,7 +116,7 @@ export default function ScheduleForm() {
       <main>
         <section id="product-form-section" className="dsc-container">
           <div className="dsc-product-form-container">
-            <form  onSubmit={handleSumit} className="dsc-card dsc-form">
+            <form onSubmit={handleSumit} className="dsc-card dsc-form">
               <h2>Schedule Data</h2>
               <div className="dsc-form-controls-container">
                 <div>
@@ -132,7 +131,7 @@ export default function ScheduleForm() {
                 </div>
 
                 <div>
-                  <input
+                  <FormInput
                     name={formData.expirationDate.name}
                     type={formData.expirationDate.type}
                     value={formData.expirationDate.value}
@@ -152,14 +151,13 @@ export default function ScheduleForm() {
                     type={formData.users.type}
                     value={formData.users.value}
                     placeholder={formData.users.placeholder}
-                    onChange={(obj:any) => {
+                    onChange={(obj: any) => {
                       const newFormData = forms.update(formData, "users", obj);
                       setFormData(newFormData);
-
                     }}
                     options={users}
-                    getOptionLabel={(obj:any) => obj.name}
-                    getOptionValue={(obj:any) => String(obj.id)}
+                    getOptionLabel={(obj: any) => obj.name}
+                    getOptionValue={(obj: any) => String(obj.id)}
                   />
                 </div>
               </div>

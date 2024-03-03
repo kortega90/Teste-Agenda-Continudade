@@ -10,3 +10,12 @@ export function findMe() {
 
   return requestBackend(config);
 }
+
+
+export function getAllUsers() {
+    const config: AxiosRequestConfig = {
+      method: "GET",
+      url:`/users/all`,
+  }
+  return requestBackend(config);
+}

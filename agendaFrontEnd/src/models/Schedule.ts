@@ -5,7 +5,7 @@ export type ScheduleDTO = {
     id: number;
     name:string;
     createdAt: string;
-    expirationDate: string;
+    expirationDate: Date;
     updatedAt: string;
     users: UserDTO[];
     contacts: ContactDTO[];

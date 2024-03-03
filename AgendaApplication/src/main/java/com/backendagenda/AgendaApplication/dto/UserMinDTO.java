@@ -28,6 +28,10 @@ public class UserMinDTO {
         this.name = name;
         this.email = email;
     }
+
+    public UserMinDTO(User user) {
+    }
+
     public Long getId() {
         return id;
     }

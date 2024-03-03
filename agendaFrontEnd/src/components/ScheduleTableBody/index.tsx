@@ -6,7 +6,7 @@ import { TableBody, TableRow, TableCell, Button } from "@mui/material";
 
 // import { Link } from "react-router-dom";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import { ScheduleDTO } from "../../models/Schedule";
 import { useState } from "react";
 import DialogInfo from "../DialogInfo";
@@ -19,7 +19,7 @@ type Props = {
 
 export default function ScheduleTableBody({ schedule,onDeleteSchedule }: Props) {
 
-
+ const navigate = useNavigate();
   
   const [dialogInfoData, setDialogInfoData] = useState({
     visible: false,
@@ -42,6 +42,10 @@ export default function ScheduleTableBody({ schedule,onDeleteSchedule }: Props) 
 
   function handleDialogDeleteClick(scheduleId:number) {
     setDialogConfirmationData ({ ...dialogConfirmationData, id:scheduleId , visible: true });
+  }
+
+  function handleDialogUpdateClick(scheduleId:number) {
+    navigate(`/schedule/Form/${scheduleId}`)
   }
 
 
@@ -69,7 +73,7 @@ export default function ScheduleTableBody({ schedule,onDeleteSchedule }: Props) 
             {schedule.name}
           </TableCell>
           <TableCell className="expiration-date body-table-schedule">
-            {schedule.expirationDate}
+            {schedule.expirationDate.toLocaleString()}
           </TableCell>
           <TableCell className="created-at">{schedule.createdAt}</TableCell>
           <TableCell className="updated-at">{schedule.updatedAt}</TableCell>
@@ -90,7 +94,7 @@ export default function ScheduleTableBody({ schedule,onDeleteSchedule }: Props) 
           <TableCell className="actions">
             <div className="actions-icons">
               <div className="edit-button dsc-menu-items-container">
-                <img src={edit} alt="Editar" />
+                <img onClick = {() =>handleDialogUpdateClick(Number(schedule.id))} src={edit} alt="Editar" />
               </div>
 
               <div className="delete-button dsc-menu-items-container">

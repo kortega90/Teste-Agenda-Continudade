@@ -8,7 +8,7 @@ import "./styles.css";
 import { ScheduleDTO } from "../../../models/Schedule";
 import ButtonNextPage from "../../../components/ButtonNextPage";
 import { useParams } from "react-router-dom";
-
+// import DialogInfo from "../../../components/DialogInfo";
 
 type QueryParams = {
   page: number;
@@ -16,6 +16,12 @@ type QueryParams = {
 };
 export default function ScheduleCatalog() {
   const params = useParams();
+
+  // const [dialogInfoData, setDialogInfoData] = useState({
+  //   visible: false,
+  //   menssage: "Operação com Sucesso",
+  // });
+
   const [isLastPage, setIsLastPage] = useState(false);
   const [schedule, setSchedule] = useState<ScheduleDTO[]>([]);
   const [queryParams, setQueryParams] = useState<QueryParams>({
@@ -23,16 +29,19 @@ export default function ScheduleCatalog() {
     name: "",
   });
 
-
   useEffect(() => {
     scheduleService
-      .findAllSchedulesByUserId(Number(params.userId), queryParams.page, queryParams.name)
+      .findAllSchedulesByUserId(
+        Number(params.userId),
+        queryParams.page,
+        queryParams.name
+      )
       .then((response) => {
         const nexPage = response.data.content;
         setSchedule(schedule.concat(nexPage));
         setIsLastPage(response.data.last);
       });
-  }, [queryParams,params.userId]);
+  }, [queryParams, params.userId]);
 
   function handleSearch(searchText: string) {
     setSchedule([]);
@@ -42,6 +51,12 @@ export default function ScheduleCatalog() {
   function handelNextPageClick() {
     setQueryParams({ ...queryParams, page: queryParams.page + 1 });
   }
+
+  // function handleDialogInfoClose ( ){
+  //   setDialogInfoData({...dialogInfoData, visible:false})
+  // }
+
+ 
 
   return (
     <>
@@ -61,13 +76,16 @@ export default function ScheduleCatalog() {
             <ScheduleCatalogCard schedule={schedule}></ScheduleCatalogCard>
           </div>
 
-          {
-            !isLastPage &&
+          {!isLastPage && (
             <div onClick={handelNextPageClick}>
               <ButtonNextPage></ButtonNextPage>
             </div>
-          }
+          )}
         </section>
+        {/* {dialogInfoData.visible 
+        && <DialogInfo 
+        message={dialogInfoData.menssage} onDialogClose={handleDialogInfoClose}/>
+} */}
       </main>
     </>
   );

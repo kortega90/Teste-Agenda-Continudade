@@ -1,15 +1,18 @@
 
 import "./styles.css";
 import * as authService from "../../../services/auth-service";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useContext, useState } from "react";
 import { CredentialsDTO } from "../../../models/auth";
 import { useNavigate } from "react-router-dom";
 import * as userService from "../../../services/user-Service";
+import { ContextToken } from "../../../utils/context-token";
 // import { UserDTO } from "../../../models/user";
 // import { UserDTO } from "../../../models/user";
 
 export default function Login() {
-  
+
+  const {setContextTokenPayload}= useContext(ContextToken);
+
   // const [user, setUser] = useState<UserDTO>();
   const navigate = useNavigate();
   
@@ -37,7 +40,7 @@ export default function Login() {
     authService.loginRequest(formData)
       .then(async (response) => {
         authService.saveAccessToken(response.data.access_token);
-        
+        setContextTokenPayload(authService.getAccessTokenPayload())
         try {
           const userResponse = await userService.findMe();
           const user = userResponse.data;

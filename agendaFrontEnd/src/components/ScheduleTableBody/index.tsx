@@ -1,6 +1,8 @@
+
 import edit from "../../assets/edit-icon.svg";
 import del from "../../assets/delete-button.svg";
 import "./styles.css";
+
 
 import { TableBody, TableRow, TableCell, Button } from "@mui/material";
 
@@ -8,16 +10,30 @@ import { TableBody, TableRow, TableCell, Button } from "@mui/material";
 
 import { NavLink } from "react-router-dom";
 import { ScheduleDTO } from "../../models/Schedule";
+import { useState } from "react";
+import DialogInfo from "../DialogInfo";
 
 type Props = {
   schedule: ScheduleDTO;
 };
 
 export default function ScheduleTableBody({ schedule }: Props) {
-
+  
+  const [dialogInfoData, setDialogInfoData] = useState({
+    visible: false,
+    menssage: "Operação com Sucesso",
+  });
   
   function truncateName(name: string) {
     return name.length > 7 ? name.substring(0, 5) : name;
+  }
+
+  function handleDialogDeleteClick ( ){
+    setDialogInfoData({...dialogInfoData, visible:true})
+  }
+
+  function handleDialogInfoClose ( ){
+    setDialogInfoData({...dialogInfoData, visible:false})
   }
 
   return (
@@ -52,7 +68,7 @@ export default function ScheduleTableBody({ schedule }: Props) {
               </div>
 
               <div className="delete-button dsc-menu-items-container">
-                <img src={del} alt="Excluir" />
+                <img onClick={handleDialogDeleteClick} src={del} alt="Excluir" />
               </div>
              
               {
@@ -63,10 +79,15 @@ export default function ScheduleTableBody({ schedule }: Props) {
                   </div>
                 </NavLink>
               }
+              
             </div>
           </TableCell>
         </TableRow>
       </TableBody>
+      {dialogInfoData.visible 
+        && <DialogInfo 
+        message={dialogInfoData.menssage} onDialogClose={handleDialogInfoClose}/>
+}
     </>
   );
 }

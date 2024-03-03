@@ -14,13 +14,14 @@ type QueryParams = {
   page: number;
   name: string;
 };
+
 export default function ScheduleCatalog() {
   const params = useParams();
 
-  // const [dialogInfoData, setDialogInfoData] = useState({
-  //   visible: false,
-  //   menssage: "Operação com Sucesso",
-  // });
+  const handleClearSchedule = () => {
+    setSchedule([]);
+    setQueryParams({ ...queryParams, page: 0 });
+  };
 
   const [isLastPage, setIsLastPage] = useState(false);
   const [schedule, setSchedule] = useState<ScheduleDTO[]>([]);
@@ -52,11 +53,6 @@ export default function ScheduleCatalog() {
     setQueryParams({ ...queryParams, page: queryParams.page + 1 });
   }
 
-  // function handleDialogInfoClose ( ){
-  //   setDialogInfoData({...dialogInfoData, visible:false})
-  // }
-
- 
 
   return (
     <>
@@ -73,7 +69,7 @@ export default function ScheduleCatalog() {
           </div>
 
           <div>
-            <ScheduleCatalogCard schedule={schedule}></ScheduleCatalogCard>
+            <ScheduleCatalogCard schedule={schedule} onClearSchedule={handleClearSchedule}></ScheduleCatalogCard>
           </div>
 
           {!isLastPage && (
@@ -82,10 +78,6 @@ export default function ScheduleCatalog() {
             </div>
           )}
         </section>
-        {/* {dialogInfoData.visible 
-        && <DialogInfo 
-        message={dialogInfoData.menssage} onDialogClose={handleDialogInfoClose}/>
-} */}
       </main>
     </>
   );

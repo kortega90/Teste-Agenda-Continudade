@@ -35,3 +35,13 @@ export function findScheduleById(
   }
   return requestBackend(config);
 }
+
+export function deleteById(id:number){
+
+  const config: AxiosRequestConfig = {
+    method: "DELETE",
+    url:`/schedule/delete/${id}`,
+    withCredentials:true
+  }
+  return requestBackend(config);
+}

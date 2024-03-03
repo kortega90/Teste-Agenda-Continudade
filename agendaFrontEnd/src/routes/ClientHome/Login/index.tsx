@@ -22,18 +22,7 @@ export default function Login() {
   });
 
 
-  // function handleSubmit(event: FormEvent<HTMLFormElement>) {
-  //   event.preventDefault();
-  //   authService
-  //     .loginRequest(formData)
-  //     .then((response) => {
-  //       authService.saveAccessToken(response.data.access_token);
-  //       navigate(`/schedule/user/1`)
-  //     })
-  //     .catch((error) => console.log("error no login", error));
-  // }
  
-
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     

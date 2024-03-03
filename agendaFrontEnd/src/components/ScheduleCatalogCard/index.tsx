@@ -15,20 +15,14 @@ import { ScheduleDTO } from "../../models/Schedule"
 
 type Props = {
   schedule: ScheduleDTO[];
+  onClearSchedule:() => void;
 };
 
-export default function ScheduleCatalogCard({ schedule }: Props) {
+export default function ScheduleCatalogCard({ schedule,onClearSchedule }: Props) {
 
-  // const [schedule,setSchedule] = useState<ScheduleDTO[]>([]);
-
-  // useEffect(()=>{
-
-  // scheduleService.findAllSchedulesByUserId(Number(1))
-  //         .then((response: { data:{content: ScheduleDTO[]} }) => {
-  //           setSchedule(response.data.content);
-  //         });
-
-  // },[])
+ function handleDeleteSchedule(){
+  onClearSchedule();
+  }
 
   return (
     <>
@@ -51,6 +45,7 @@ export default function ScheduleCatalogCard({ schedule }: Props) {
           
               key={schedule.id}
               schedule={schedule}
+              onDeleteSchedule={handleDeleteSchedule}
             ></ScheduleTableBody>
           ))}
 

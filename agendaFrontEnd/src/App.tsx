@@ -14,6 +14,7 @@ import { useEffect, useState } from "react";
 import { ContextToken } from "./utils/context-token";
 import * as authService from "./services/auth-service"
 import ScheduleForm from "./routes/ClientHome/ScheduleForm";
+import ContactForm from "./routes/ClientHome/ContactForm";
 
 export default function App() {
   
@@ -37,6 +38,7 @@ export default function App() {
           <Route path="schedule/user/:userId" element={<ScheduleCatalog />}/>
           <Route path="schedule/Form/:scheduleId" element={<ScheduleForm />}/>
           <Route path="schedule/:scheduleId" element={<ContactCatalog />} />
+          <Route path="ContactForm/:contactId" element={<ContactForm />}/>
         </Route>
 
         <Route path="/admin/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Admin /></PrivateRoute>}>

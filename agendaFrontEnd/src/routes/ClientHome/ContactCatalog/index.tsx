@@ -44,7 +44,7 @@ export default function ContactCatalog() {
       .findMe()
       .then((response) => {
         setUser(response.data);
-        console.log(response.data);
+        // console.log(response.data);
       })
       .catch((error) => {
         console.log("Error", error);
@@ -54,11 +54,17 @@ export default function ContactCatalog() {
   function handleSearch(searchText: string) {
     setContactName(searchText);
   }
+
+  function handleNewScheduleClick (){
+    navigate(`/ContactForm/create`);
+  }
+
   return (
     <>
       <main>
         <section id="" className="dsc-container">
-          <div className="dsc-btn-page-container dsc-mb20">
+
+          <div onClick={handleNewScheduleClick} className="dsc-btn-page-container dsc-mb20">
             <ButtonInverse value="novo" />
           </div>
 

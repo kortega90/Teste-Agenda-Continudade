@@ -37,6 +37,13 @@ public class ContactService {
         this.scheduleRepository = scheduleRepository;
     }
 
+    public ContactDTO findContactById(Long idContact) {
+        Contact contact = contactRepository.findById(idContact)
+                .orElseThrow(() -> new EntityNotFoundException("Contact not found with ID: " + idContact));
+
+        return new ContactDTO(contact);
+    }
+
     @Transactional
     public void deleteById(Long contactId) {
         contactRepository.deleteById(contactId);

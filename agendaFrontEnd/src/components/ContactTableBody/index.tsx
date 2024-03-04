@@ -9,7 +9,7 @@ type Props = {
   contact: ContactDTO;
 };
 
-export default function ContactCatalogCard({ contact }: Props) {
+export default function ContactCatalogBody({ contact }: Props) {
   return (
     <>
       <TableBody>

@@ -1,11 +1,8 @@
 package com.backendagenda.AgendaApplication.controllers;
 
 import com.backendagenda.AgendaApplication.dto.ContactDTO;
-import com.backendagenda.AgendaApplication.dto.ScheduleMinDTO;
-import com.backendagenda.AgendaApplication.dto.ValidationError;
 import com.backendagenda.AgendaApplication.services.ContactService;
 import com.backendagenda.AgendaApplication.services.ScheduleService;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

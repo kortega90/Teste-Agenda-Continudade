@@ -13,24 +13,14 @@ import {
 
 type Props = {
   schedule: ScheduleDTO;
+  onClearContact:() => void;
 };
 
-export default function ContactCatalogCard({schedule}:Props) {
-  // const params = useParams();
-  // const navigate = useNavigate();
-  // const [schedule, setSchedule] = useState<ScheduleDTO | undefined>();
-
-  // useEffect(() => {
-  //   scheduleService
-  //     .findScheduleById(Number(params.scheduleId))
-  //     .then((response: { data: ScheduleDTO }) => {
-  //       setSchedule(response.data);
-  //     })
-  //     .catch(() => {
-  //       navigate("/");
-  //     });
-  // }, [params.scheduleId, navigate]);
-
+export default function ContactCatalogCard({schedule,onClearContact}:Props) {
+ 
+  function handleDeleteContact(){
+    onClearContact();
+    }
 
   return (
     <>
@@ -56,7 +46,11 @@ export default function ContactCatalogCard({schedule}:Props) {
           </TableHead>
           {schedule &&
             schedule.contacts.map((contact) => (
-              <ContactTableBody key={contact.id} contact={contact} />
+              <ContactTableBody 
+              key={contact.id} 
+              contact={contact} 
+              onDeleteContact={handleDeleteContact}
+              />
             ))}
         </Table>
       </TableContainer>

@@ -18,6 +18,15 @@ export default function ContactCatalog() {
 
   const [user, setUser] = useState<UserDTO>();
 
+  const handleClearContact = () => {
+
+    if (contactName === ""){
+      setContactName(" "); 
+    }else{
+      setContactName(""); 
+    }
+
+  };
 
   useEffect(() => {
     scheduleService
@@ -26,7 +35,7 @@ export default function ContactCatalog() {
         setSchedule(response.data);
       })
       .catch(() => {
-        navigate(`/`);
+        navigate(`/schedule/user/${user?.id}`);
       });
   }, [params.scheduleId, navigate, contactName]);
 
@@ -40,7 +49,7 @@ export default function ContactCatalog() {
       .catch((error) => {
         console.log("Error", error);
       });
-  }, [user]);
+  }, []);
 
   function handleSearch(searchText: string) {
     setContactName(searchText);
@@ -55,7 +64,7 @@ export default function ContactCatalog() {
 
           <SearchBar onSearch={handleSearch}></SearchBar>
           {schedule && (
-            <ContactCatalogCard schedule={schedule}></ContactCatalogCard>
+            <ContactCatalogCard schedule={schedule} onClearContact={handleClearContact}></ContactCatalogCard>
           )}
 
           <div className="dsc-btn-page-container dsc-mt20">

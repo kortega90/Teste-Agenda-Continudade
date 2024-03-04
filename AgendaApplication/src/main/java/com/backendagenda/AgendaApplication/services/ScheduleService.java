@@ -33,13 +33,13 @@ import java.util.stream.Collectors;
 public class ScheduleService {
     private final ScheduleRepository scheduleRepository;
     private final UserRepository userRepository;
-    private ContactRepository contactRepository;
+    private ContactService contactService;
     private final EmailService emailService;
 
-    public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository, ContactRepository contactRepository, EmailService emailService) {
+    public ScheduleService(ScheduleRepository scheduleRepository, UserRepository userRepository, ContactService contactService, EmailService emailService) {
         this.scheduleRepository = scheduleRepository;
         this.userRepository = userRepository;
-        this.contactRepository = contactRepository;
+        this.contactService = contactService;
         this.emailService = emailService;
     }
 
@@ -100,16 +100,18 @@ public class ScheduleService {
         }
     }
 
-    @Transactional(propagation = Propagation.SUPPORTS)
+    @Transactional
     public void deleteSchedule(Long scheduleId) {
         try {
-            scheduleRepository.deleteById(scheduleId);
+            contactService.deleteContactsByScheduleId(scheduleId); // Exclui os contatos associados à agenda
+            scheduleRepository.deleteById(scheduleId); // Agora podemos excluir a agenda
         } catch (EmptyResultDataAccessException e) {
-            throw new ResourNotFoundException("Recurso não encontrado");
+            throw new ResourNotFoundException("Agenda não encontrada");
         } catch (DataIntegrityViolationException e) {
             throw new DatabaseException("Falha de integridade referencial");
         }
     }
+
 
     @Transactional
     public ScheduleDTO updateSchedule(Long id, ScheduleDTO dto) {
@@ -134,33 +136,6 @@ public class ScheduleService {
         }
     }
 
-    @Transactional
-    public ScheduleMinDTO updateContactToSchedule(Long scheduleId, ScheduleMinDTO dto) {
-        try {
-            Schedule entity = scheduleRepository.findById(scheduleId)
-                    .orElseThrow(() -> new ResourNotFoundException("Agenda não encontrada com o ID: " + scheduleId));
-
-            entity.getContacts().clear();
-
-            for (ContactDTO contactDto : dto.getContacts()) {
-                Contact contact = new Contact();
-                contact.setName(contactDto.getName());
-                contact.setCep(contactDto.getCep());
-                contact.setEmail(contactDto.getEmail());
-                contact.setPhone(contactDto.getPhone());
-                contact.setCnpj(contactDto.getCnpj());
-                contact.setCpf(contactDto.getCpf());
-                contact.setSchedule(entity);
-
-                entity.addContact(contact);
-            }
-            return new ScheduleMinDTO(scheduleRepository.save(entity));
-        } catch (ResourNotFoundException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException("Erro ao atualizar contato na agenda", e);
-        }
-    }
 
     @Transactional
     public void sendEmailsForSchedule(Long scheduleId) {

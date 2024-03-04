@@ -37,7 +37,7 @@ public class Schedule {
     private List<User> users = new ArrayList<>();
 
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "schedule", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "schedule", cascade = CascadeType.REMOVE)
     private List<Contact> contacts = new ArrayList<>();
 
     public Schedule() {

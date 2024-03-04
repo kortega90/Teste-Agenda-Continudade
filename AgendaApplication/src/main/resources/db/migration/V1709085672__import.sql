@@ -47,6 +47,14 @@ CREATE TABLE IF NOT EXISTS user_schedule (
     PRIMARY KEY (user_id, schedule_id)
 );
 
+-- Deletar agenda en cascada
+ALTER TABLE tb_contact
+ADD CONSTRAINT fk_schedule_id
+FOREIGN KEY (schedule_id)
+REFERENCES tb_schedule(id)
+ON DELETE CASCADE;
+
+
 INSERT INTO tb_user(name, email, password) VALUES ('Kengi Ortega', 'kortega90@hotmail.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('Maria Silva', 'maria.silva@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');
 INSERT INTO tb_user(name, email, password) VALUES ('John Doe', 'john.doe@example.com', '$2a$10$10F2E7pyIsD5YjpeURaljesA3OkJzpbPOlYy0biF2VM2s4GkN88Sy');

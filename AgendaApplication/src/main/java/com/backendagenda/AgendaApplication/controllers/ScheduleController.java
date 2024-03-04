@@ -84,18 +84,5 @@ public class ScheduleController {
         return ResponseEntity.ok(scheduleService.updateSchedule(scheduleId, scheduleDetails));
     }
 
-//    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
-    @PostMapping("/contacts/{scheduleId}")
-    @Transactional
-    public ResponseEntity<?> updateContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ScheduleMinDTO dto) {
-        // Validação do ScheduleMinDTO
-        ValidationError error = dto.validate();
-        if (error != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(error);
-        }
-
-        scheduleService.sendEmailsForSchedule(scheduleId); // Envie e-mails para os usuários associados ao agendamento
-        return ResponseEntity.ok(scheduleService.updateContactToSchedule(scheduleId, dto));
-    }
 
 }

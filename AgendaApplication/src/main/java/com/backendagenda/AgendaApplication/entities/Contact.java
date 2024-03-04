@@ -23,7 +23,7 @@ public class Contact {
     @Cpf(message = "Cpf inválido")
     private String cpf;
 
-    @ManyToOne
+    @ManyToOne()
     @JoinColumn(name = "schedule_id")
     private Schedule schedule;
 

@@ -41,12 +41,22 @@ public class ContactController {
     //    @PreAuthorize("hasAnyRole('ROLE_ADMIN', 'ROLE_USER')")
     @PostMapping("add/{scheduleId}")
         public ResponseEntity<?> createContactToSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ContactDTO dto) {
+        try {
+            scheduleService.sendEmailsForSchedule(scheduleId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(contactService.addContactToSchedule(scheduleId, dto));
     }
 
     @PutMapping("update/{scheduleId}")
     @Transactional
     public ResponseEntity<?> updateContactInSchedule(@PathVariable Long scheduleId, @Valid @RequestBody ContactDTO dto) {
+        try {
+            scheduleService.sendEmailsForSchedule(scheduleId);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return ResponseEntity.ok(contactService.updateContactToSchedule(scheduleId, dto));
     }
 }

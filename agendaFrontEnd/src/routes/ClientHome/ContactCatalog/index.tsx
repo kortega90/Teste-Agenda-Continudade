@@ -19,13 +19,11 @@ export default function ContactCatalog() {
   const [user, setUser] = useState<UserDTO>();
 
   const handleClearContact = () => {
-
     if (contactName === ""){
       setContactName(" "); 
     }else{
       setContactName(""); 
     }
-
   };
 
   useEffect(() => {
@@ -44,7 +42,6 @@ export default function ContactCatalog() {
       .findMe()
       .then((response) => {
         setUser(response.data);
-        // console.log(response.data);
       })
       .catch((error) => {
         console.log("Error", error);
@@ -56,7 +53,7 @@ export default function ContactCatalog() {
   }
 
   function handleNewScheduleClick (){
-    navigate(`/ContactForm/create`);
+    navigate(`/contact/form/create/schedule/${params.scheduleId}`);
   }
 
   return (

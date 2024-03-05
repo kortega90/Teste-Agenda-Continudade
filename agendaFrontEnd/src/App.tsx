@@ -38,7 +38,7 @@ export default function App() {
           <Route path="schedule/user/:userId" element={<ScheduleCatalog />}/>
           <Route path="schedule/Form/:scheduleId" element={<ScheduleForm />}/>
           <Route path="schedule/:scheduleId" element={<ContactCatalog />} />
-          <Route path="ContactForm/:contactId" element={<ContactForm />}/>
+          <Route path="contact/form/:contactId/schedule/:scheduleId" element={<ContactForm />}/>
         </Route>
 
         <Route path="/admin/" element={<PrivateRoute roles={['ROLE_ADMIN']}><Admin /></PrivateRoute>}>

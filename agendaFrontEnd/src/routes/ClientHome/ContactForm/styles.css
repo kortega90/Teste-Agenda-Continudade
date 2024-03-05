@@ -21,6 +21,13 @@
   color: #999; /* Cor do placeholder */
   font-style: italic; /* Estilo do texto do placeholder */
 }
+.dsc-form-control-contact{
+  margin-bottom: 10px;
+}
+.error-message{
+  color:red;
+  font-size: 11px;
+}
 
 @media (min-width: 576px) {
   #product-form-section {

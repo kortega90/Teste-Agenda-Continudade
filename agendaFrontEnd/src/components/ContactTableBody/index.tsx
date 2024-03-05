@@ -8,7 +8,7 @@ import { TableBody, TableRow, TableCell } from "@mui/material";
 import DialogInfo from "../DialogInfo";
 import DialogConfirmation from "../DialogConfirmation";
 import { useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import {  useNavigate, useParams } from "react-router-dom";
 
 type Props = {
   contact: ContactDTO;
@@ -18,11 +18,10 @@ type Props = {
 export default function ContactCatalogBody({ contact, onDeleteContact }: Props) {
 
   const navigate = useNavigate();
+
   const params = useParams(); 
 
-  // console.log("🚀 ~ ContactCatalogBody ~ params:", params.scheduleId)
 
-  
   const [dialogInfoData, setDialogInfoData] = useState({
     visible: false,
     menssage: "Operação com Sucesso",
@@ -38,7 +37,7 @@ export default function ContactCatalogBody({ contact, onDeleteContact }: Props) 
     setDialogInfoData({ ...dialogInfoData, visible: false });
   }
 
-  function handleDialogDeleteClick(scheduleId:number) {
+  function handleDialogDeleteClickContact(scheduleId:number) {
     setDialogConfirmationData ({ ...dialogConfirmationData, id:scheduleId , visible: true });
   }
 
@@ -59,10 +58,8 @@ export default function ContactCatalogBody({ contact, onDeleteContact }: Props) 
     setDialogConfirmationData({...dialogConfirmationData, visible: false});
   }
 
-  function handleDialogUpdateClick(contactId:number) {
-    navigate(`ContactForm/${contactId}`)
-    console.log("🚀 ~ handleDialogUpdateClick ~ contactId:", contactId);
-    console.log("🚀 ~ handleDialogUpdateClick ~ params.scheduleId:", params.scheduleId)
+  function handleDialogUpdateClickContact(contactId:number) {
+      navigate(`/contact/form/${contactId}/schedule/${params.scheduleId}`);
   }
 
 
@@ -81,12 +78,12 @@ export default function ContactCatalogBody({ contact, onDeleteContact }: Props) 
             <div className="actions-icons">
               <div className="edit-button dsc-menu-items-container">
                 <img 
-                onClick = {() =>handleDialogUpdateClick(Number(contact.id))}
+                onClick = {() =>handleDialogUpdateClickContact(contact.id)}
                 src={edit} alt="Editar" />
               </div>
               <div className="delete-button dsc-menu-items-container">
                 <img 
-                onClick={() =>handleDialogDeleteClick(contact.id)}
+                onClick={() =>handleDialogDeleteClickContact(contact.id)}
                 src={del} alt="Excluir" />
               </div>
             </div>

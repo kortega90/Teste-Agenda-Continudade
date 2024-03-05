@@ -12,8 +12,6 @@ export default function AdminHome() {
     userService.findMe()
       .then(response => {
         setUser(response.data);
-        console.log(response.data);
-        console.log(user);
       })
       .catch( error => {
         console.log("Error", error);

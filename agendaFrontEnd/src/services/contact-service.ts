@@ -21,7 +21,7 @@ export function deleteById(id: number) {
   }
 
 
-  export function updateSchedule(obj: ContactDTO,idSchedule :number) {
+  export function updateContact(obj: ContactDTO,idSchedule :number) {
     const config: AxiosRequestConfig = {
       method: "PUT",
       url: `/contact/update/${idSchedule}`,
@@ -31,7 +31,7 @@ export function deleteById(id: number) {
     return requestBackend(config);
   }
   
-  export function addSchedule(obj: ContactDTO,idSchedule :number) {
+  export function addContact(obj: ContactDTO,idSchedule :number) {
     const config: AxiosRequestConfig = {
       method: "POST",
       url: `/contact/add/${idSchedule}`,
